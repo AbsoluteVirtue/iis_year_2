@@ -84,7 +84,7 @@ int main() {
     houses[2] = House("Proemobil","Testemiteanu 11",10);
     houses[3] = House("Glorinal","Testemiteanu 13",5);
 
-    cout << houses[0].getConstructorName() << endl;
+    houses[0].equals(houses[1]);
 
     cout<<"Floors sort"<<endl;
     sortByFloors(houses,size);

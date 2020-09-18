@@ -17,7 +17,7 @@ public:
     };
     Coordinates(int _x, int _y, const char * _p) : x(_x), y(_y) {
         if (p != nullptr) {
-            p = NULL;
+            p = nullptr;
         }
 
         int len = strlen(_p); 
