@@ -1,6 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <string>
+
 
 using namespace std;
 
@@ -9,10 +8,6 @@ typedef struct _complex {
     double real;
     double imaginary;
 } complex;
-
-void get_norm(complex& num) {
-    return;
-}
 
 complex add(complex& lhs, complex& rhs) {
     complex result = {};
@@ -41,24 +36,26 @@ complex mul(complex& lhs, complex& rhs) {
     return result;
 }
 
-double sqrt(double& a) {
+double pow_2(double& a) {
     return a * a;
 }
 
 complex div(complex& lhs, complex& rhs) {
     complex result = {};
 
-    result.real = ((lhs.real * rhs.real) + (lhs.imaginary * rhs.imaginary)) / (sqrt(rhs.real) + sqrt(rhs.imaginary));
-    result.imaginary = ((lhs.imaginary * rhs.real) - (lhs.real * rhs.imaginary)) / (sqrt(rhs.real) + sqrt(rhs.imaginary));
+    result.real = ((lhs.real * rhs.real) + (lhs.imaginary * rhs.imaginary)) / 
+                    (pow_2(rhs.real) + pow_2(rhs.imaginary));
+    result.imaginary = ((lhs.imaginary * rhs.real) - (lhs.real * rhs.imaginary)) /
+                        (pow_2(rhs.real) + pow_2(rhs.imaginary));
 
     return result;
 }
 
-int main()
+int main(int argc, char * const argv[])
 {
 
-    complex first = {1, 2};
-    complex second = {10, 20};
+    complex first = {(double)atoi(argv[1]), (double)atoi(argv[2])};
+    complex second = {(double)atoi(argv[3]), (double)atoi(argv[4])};
 
     complex res = add(first, second);
 
