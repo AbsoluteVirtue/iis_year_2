@@ -54,8 +54,8 @@ complex div(complex& lhs, complex& rhs) {
 int main(int argc, char * const argv[])
 {
 
-    complex first = {(double)atoi(argv[1]), (double)atoi(argv[2])};
-    complex second = {(double)atoi(argv[3]), (double)atoi(argv[4])};
+    complex first = {(double)atof(argv[1]), (double)atof(argv[2])};
+    complex second = {(double)atof(argv[3]), (double)atof(argv[4])};
 
     complex res = add(first, second);
 
