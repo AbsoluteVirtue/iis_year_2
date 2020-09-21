@@ -1,129 +1,94 @@
-#include <iostream>
+#include <algorithm>
 #include <cstring>
-#include "swbjaw.h"
+#include <iostream>
 
 
-using namespace  std;
+class Test {
+private:
+    char * p {nullptr};
 
-#define SIZE 4
+    void _copy_string(const char * _string) {
+        std::size_t _length = strlen(_string);
+        p = new char [_length + 1];
 
-
-struct House{
-public:
-    char * constructorName;
-    char * address;
-    int floors;
-
-public:
-    House() {
-        this->constructorName = nullptr;
-        this->address = nullptr;
-        this->floors = 0;
-    }
-
-    House(char * constructorName, char * address, int floors){
-        int len = strlen(constructorName);
-        this->constructorName = new char[len];
-        for (int i=0; i < len; i += 1) {
-            this->constructorName[i] = constructorName[i];
+        for (int i=0;i < _length; i++) {
+            p[i] = _string[i];
         }
-        this->constructorName[len] = '\0';
 
+        p[_length] = char('\0');
+    }
+public:
+    Test() {}
 
-        len = strlen(address);
-        this->address = new char[len + 1];
-        for (int i=0; i < len; i += 1) {
-            this->address[i] = address[i];
+    Test(const char * str) {
+        if (p != nullptr) {
+            delete [] p;
+            p = nullptr;
         }
-        this->address[len] = '\0';
-
-        // this->constructorName = constructorName;
-        // this->address = address;
-        this->floors = floors;
+        _copy_string(str);
     }
 
-    bool equals(House house){
-        if(address == house.address && constructorName == house.constructorName && floors == house.floors)
-            return true;
-        return false;
+    Test(const Test & obj) {
+        *this = obj;
     }
 
-    char * getConstructorName() const {
-        return constructorName;
+    Test(Test && obj) {
+        *this = std::move(obj);
     }
 
-    void setConstructorName(char * constructorName) {
-        this->constructorName = constructorName;
+    ~Test() {
+        delete [] p;
+        p = nullptr;
     }
 
-    char * getAddress() const {
-        return address;
+    Test & operator =(const Test & obj) {
+        if (p != nullptr) {
+            delete [] p;
+            p = nullptr;
+        }
+        _copy_string(obj.p);
+
+        return *this;
     }
 
-    void setAddress(char * address) {
-        this->address = address;
-    }
-
-    int getFloors() const {
-        return floors;
-    }
-
-    void setFloors(int floors) {
-        this->floors = floors;
+    char * get_p() const {
+        return p;
     }
 };
 
 
-void sortByFloors(House * houses, int size){
-    for (int i = 0;i < size - 1; ++i)
-    {
-        int k = i;
-        for (int j = i + 1; j < size; j++)
-            if (houses[j].getFloors() <= houses[k].getFloors())
-                k = j;
+int cmp(const void * lhs, const void * rhs) {
+    return strcmp(
+        ((Test *)lhs)->get_p(),
+        ((Test *)rhs)->get_p()
+    );
+}
 
-        swap(houses[i], houses[k]);
+bool cmp_bool(Test & lhs, Test & rhs) {
+    return strcmp(lhs.get_p(), rhs.get_p());
+}
+
+void print_array(const Test * arr, const int size) {
+    for (int i = 0; i < size; ++i) {
+        std::cout << arr[i].get_p() << std::endl;
     }
 }
 
 
-void sortByAlph(House *houses, int size){
-    for (int i = 0; i < size - 1; ++i){
-        int k = i;
-        for (int j = i + 1; j < size; j++)
-            if ( strcmp(houses[j].getConstructorName(), houses[k].getConstructorName()) > 0 )
-                k = j;
+int main(int argc, char const *argv[])
+{
+    Test * arr = new Test [2];
 
-        swap(houses[i], houses[k]);
-    }
-}
+    arr[0] = Test("IA-192");
+    arr[1] = Test("AI-192");
 
+    qsort(arr, 2, sizeof(*arr), cmp);
 
-void print(House *houses, int size){
-    for(int i = 0; i < size;i++){
-        cout << houses[i].getConstructorName() << " "
-        << houses[i].getAddress() << " floors " << houses[i].getFloors() << endl;
-    }
-}
+    print_array(arr, 2);
 
+    std::sort(arr, arr + 2, cmp_bool);
 
-int main() {
+    print_array(arr, 2);
 
-    House *houses = new House[SIZE];
-
-    houses[0] = House("ProEmobil", "Testemiteanu 11", 10);
-    houses[1] = House("Glorinal", "Testemiteanu 32", 19);
-    houses[2] = House("ProEmobil", "Testemiteanu 11", 10);
-    houses[3] = House("Glorinal", "Testemiteanu 13", 5);
-
-    houses[0].equals(houses[2]);
-
-    cout<<"Floors sort"<<endl;
-    sortByFloors(houses, SIZE);
-    print(houses, SIZE);
-    cout<<"Alph sort"<<endl;
-    sortByAlph(houses, SIZE);
-
-    delete [] houses;
     return 0;
 }
