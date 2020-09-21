@@ -11,21 +11,47 @@ std::size_t _strlen(const char* start) {
    return end - start - 1;
 }
 
-Swbjaw::Swbjaw() {
+char * & _copy_string(const char * _string) {
 
-    _character = nullptr;
+    std::size_t _length = _strlen(_string);
+    char * _character = new char [_length + 1];
+
+    for (int i=0;i < _length; i++) {
+        _character[i] = _string[i];
+    }
+
+    _character[_length] = char('\0');
+
+    return _character;
+}
+
+SwbjawException::SwbjawException(const char * msg) {
+    _message = _copy_string(msg);
+}
+
+const char *  SwbjawException::what() const throw() {
+    return _message;
+}
+
+Swbjaw::Swbjaw() : _character(nullptr) {
 
 }
 
-Swbjaw::Swbjaw(const char * _string) {
+Swbjaw::Swbjaw(const char * str) {
 
-    _copy_string(_string);
+    _character = _copy_string(str);
 
 }
 
 Swbjaw::Swbjaw(const Swbjaw & obj) {
 
-    _copy_string(obj._character);
+    *this = obj;
+
+}
+
+Swbjaw::Swbjaw(Swbjaw && obj) : _character(nullptr) {
+
+    *this = std::move(obj);
 
 }
 
@@ -41,9 +67,20 @@ Swbjaw & Swbjaw::operator =(const Swbjaw & obj) {
     if (_character != nullptr) {
         delete [] _character;
         _character = nullptr;
+        _character = _copy_string(obj._character);
     }
 
-    _copy_string(obj._character);
+    return *this;
+}
+
+Swbjaw & Swbjaw::operator =(Swbjaw && obj) noexcept {
+
+    if (this != &obj) {
+        delete [] _character;
+
+        _character = obj._character;
+        obj._character = nullptr;
+    }
 
     return *this;
 }
@@ -75,17 +112,4 @@ std::ostream & operator <<(std::ostream & outs, const Swbjaw& obj) {
     outs << obj._character;
 
     return outs;
-}
-
-void Swbjaw::_copy_string(const char * _string) {
-
-    std::size_t _length = _strlen(_string);
-    _character = new char [_length + 1];
-
-    for (int i=0;i < _length; i++) {
-        _character[i] = _string[i];
-    }
-
-    _character[_length] = char('\0');
-
 }
