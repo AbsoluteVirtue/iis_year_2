@@ -3,28 +3,34 @@
 #include <iostream>
 
 
+#define SIZE 2
+
+
 class Test {
 private:
-    char * p {nullptr};
+    char * _p {nullptr};
 
     void _copy_string(const char * _string) {
         std::size_t _length = strlen(_string);
-        p = new char [_length + 1];
+        _p = new char [_length + 1];
 
         for (int i=0;i < _length; i++) {
-            p[i] = _string[i];
+            _p[i] = _string[i];
         }
 
-        p[_length] = char('\0');
+        _p[_length] = char('\0');
+    }
+
+    void _nullify_string() {
+        if (_p != nullptr) {
+            delete [] _p;
+            _p = nullptr;
+        }
     }
 public:
     Test() {}
 
     Test(const char * str) {
-        if (p != nullptr) {
-            delete [] p;
-            p = nullptr;
-        }
         _copy_string(str);
     }
 
@@ -37,27 +43,23 @@ public:
     }
 
     ~Test() {
-        delete [] p;
-        p = nullptr;
+        _nullify_string();
     }
 
     Test & operator =(const Test & obj) {
-        if (p != nullptr) {
-            delete [] p;
-            p = nullptr;
-        }
-        _copy_string(obj.p);
+        _nullify_string();
+        _copy_string(obj._p);
 
         return *this;
     }
 
-    char * get_p() const {
-        return p;
+    const char * get_p() const {
+        return _p;
     }
 };
 
 
-int cmp(const void * lhs, const void * rhs) {
+int cmp_int(const void * lhs, const void * rhs) {
     return strcmp(
         ((Test *)lhs)->get_p(),
         ((Test *)rhs)->get_p()
@@ -77,18 +79,20 @@ void print_array(const Test * arr, const int size) {
 
 int main(int argc, char const *argv[])
 {
-    Test * arr = new Test [2];
+    Test * arr = new Test [SIZE];
 
     arr[0] = Test("IA-192");
     arr[1] = Test("AI-192");
 
-    qsort(arr, 2, sizeof(*arr), cmp);
+    qsort(arr, SIZE, sizeof(*arr), cmp_int);
 
-    print_array(arr, 2);
+    print_array(arr, SIZE);
 
-    std::sort(arr, arr + 2, cmp_bool);
+    std::sort(arr, arr + SIZE, cmp_bool);
 
-    print_array(arr, 2);
+    print_array(arr, SIZE);
+
+    delete [] arr;
 
     return 0;
 }
