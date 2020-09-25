@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
+#include <string>
 
 struct Test {
     char * p {nullptr};
@@ -41,6 +42,8 @@ int main(int argc, char const *argv[])
 
     arr[0] = Test("IA-192");
     arr[1] = Test("AI-192");
+
+    strcpy(arr[0].p, arr[1].p);
 
     qsort(arr, 2, sizeof(*arr), cmp);
 

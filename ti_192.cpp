@@ -32,6 +32,9 @@ public:
     Coordinates(const Coordinates & obj) {
         * this = obj;
     }
+    Coordinates(Coordinates && obj) {
+
+    }
     ~Coordinates() {
         delete [] p;
     }
@@ -49,6 +52,16 @@ public:
         p[len] = '\0';
 
         return * this;
+    }
+    Coordinates & operator =(Coordinates && obj) noexcept {
+        if (this != &obj) {
+            delete [] p;
+
+            p = obj.p;
+            obj.p = nullptr;
+        }
+
+        return *this;
     }
 
 
@@ -68,9 +81,11 @@ int main(int argc, char const *argv[]) {
 
     Coordinates coord(1, 2, "hello");
 
-    Coordinates coord_copy(coord);
+    Coordinates coord_copy(Coordinates(1, 2, "hello"));
 
     Coordinates coord_eq = coord_copy;
+
+
 
     return 0;
 }
