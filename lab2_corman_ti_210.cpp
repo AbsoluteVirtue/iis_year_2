@@ -44,9 +44,8 @@ void getSumm(float *arr, int arrSize) {
 	return;
 }
 
-void reduceArray(float *arr, const int arrSize) {
+void reduceArray(float *arr, const int arrSize, int a, int b) {
 
-	int a = 3, b = 6;
 	float newArr[8];
 
 	int pointerA = 0;
@@ -89,19 +88,22 @@ int main() {
 	const int n = 8;
 	
 	cout << "Enter element in array" << endl;
-	float arr[n] = {};
+	float arr[n] = {-45., 13., 0., 100., 156., -23., 55., 0.};
 
-	for (int i = 0; i < n; i++) {
+	// for (int i = 0; i < n; i++) {
 		
-		cout << "m[" << i << "] = "; cin >> arr[i];
+	// 	cout << "m[" << i << "] = "; cin >> arr[i];
 
-	}
+	// }
 
 	cout << endl;
 
-	getMaxValue(arr, n); cout << endl;
-	getSumm(arr, n); cout << endl;
-	reduceArray(arr, n); cout << endl;
+	getMaxValue(arr, n);
+	cout << endl;
+	getSumm(arr, n);
+	cout << endl;
+	reduceArray(arr, n, 3, 30);
+	cout << endl;
 
 	return 0;
 }

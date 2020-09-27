@@ -4,13 +4,13 @@
 
 main()
 {
-	float arr[N];
+	float arr[N] = {-22., -45., 13., 0., 100., 156., -23., 55., 0., -44.};
 	int i;
-	for( i=0; i<N; i++ )
-	{
-		printf("arr[%d] = ", i);
-        scanf("%f", &arr[i]);
-	}
+	// for( i=0; i<N; i++ )
+	// {
+	// 	printf("arr[%d] = ", i);
+    //     scanf("%f", &arr[i]);
+	// }
 	
 	printf("\n************[Your input in array is]************\n");
 	for( i=0; i<N; i++ )
