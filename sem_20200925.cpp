@@ -85,7 +85,5 @@ int main(int argc, char const *argv[]) {
 
     Coordinates coord_eq = coord_copy;
 
-
-
     return 0;
 }

@@ -1,57 +1,98 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
-#include <string>
 
-struct Test {
-    char * p {nullptr};
 
+#define SIZE 2
+
+
+class Test {
+private:
+    char * _p {nullptr};
+
+    void _copy_string(const char * _string) {
+        std::size_t _length = strlen(_string);
+        _p = new char [_length + 1];
+
+        for (int i=0;i < _length; i++) {
+            _p[i] = _string[i];
+        }
+
+        _p[_length] = char('\0');
+    }
+
+    void _nullify_string() {
+        if (_p != nullptr) {
+            delete [] _p;
+            _p = nullptr;
+        }
+    }
+public:
     Test() {}
 
     Test(const char * str) {
-        std::size_t _length = strlen(str);
-        p = new char [_length + 1];
+        _copy_string(str);
+    }
 
-        for (int i=0;i < _length; i++) {
-            p[i] = str[i];
-        }
+    Test(const Test & obj) {
+        *this = obj;
+    }
 
-        p[_length] = char('\0');
+    Test(Test && obj) {
+        *this = std::move(obj);
+    }
+
+    ~Test() {
+        _nullify_string();
+    }
+
+    Test & operator =(const Test & obj) {
+        _nullify_string();
+        _copy_string(obj._p);
+
+        return *this;
+    }
+
+    const char * get_p() const {
+        return _p;
     }
 };
 
 
-int cmp(const void * lhs, const void * rhs) {
-    return strcmp(((Test *)lhs)->p, ((Test *)rhs)->p);
+int cmp_int(const void * lhs, const void * rhs) {
+    return strcmp(
+        ((Test *)lhs)->get_p(),
+        ((Test *)rhs)->get_p()
+    );
 }
 
 bool cmp_bool(Test & lhs, Test & rhs) {
-    return strcmp(lhs.p, rhs.p);
+    return strcmp(lhs.get_p(), rhs.get_p());
 }
 
 void print_array(const Test * arr, const int size) {
     for (int i = 0; i < size; ++i) {
-        std::cout << arr[i].p << std::endl;
+        std::cout << arr[i].get_p() << std::endl;
     }
 }
 
 
 int main(int argc, char const *argv[])
 {
-    Test * arr = new Test [2];
+    Test * arr = new Test [SIZE];
 
     arr[0] = Test("IA-192");
     arr[1] = Test("AI-192");
 
-    strcpy(arr[0].p, arr[1].p);
+    qsort(arr, SIZE, sizeof(*arr), cmp_int);
 
-    qsort(arr, 2, sizeof(*arr), cmp);
+    print_array(arr, SIZE);
 
-    print_array(arr, 2);
+    std::sort(arr, arr + SIZE, cmp_bool);
 
-    std::sort(arr, arr + 2, cmp_bool);
+    print_array(arr, SIZE);
 
-    print_array(arr, 2);
+    delete [] arr;
 
     return 0;
 }
