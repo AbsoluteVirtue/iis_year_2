@@ -9,14 +9,18 @@ struct Test {
     Test() {}
 
     Test(const char * str) {
-        std::size_t _length = strlen(str);
-        p = new char [_length + 1];
 
-        for (int i=0;i < _length; i++) {
+        p = new char [strlen(str) + 1];
+
+        for (int i=0;i < strlen(str); i++) {
             p[i] = str[i];
         }
 
-        p[_length] = char('\0');
+        p[strlen(str)] = char('\0');
+    }
+
+    ~Test() {
+        delete [] p;
     }
 };
 
@@ -42,8 +46,6 @@ int main(int argc, char const *argv[])
 
     arr[0] = Test("IA-192");
     arr[1] = Test("AI-192");
-
-    strcpy(arr[0].p, arr[1].p);
 
     qsort(arr, 2, sizeof(*arr), cmp);
 

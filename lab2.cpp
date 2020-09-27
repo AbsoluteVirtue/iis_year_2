@@ -11,14 +11,13 @@ private:
     char * _p {nullptr};
 
     void _copy_string(const char * _string) {
-        std::size_t _length = strlen(_string);
-        _p = new char [_length + 1];
+        _p = new char [strlen(_string) + 1];
 
-        for (int i=0;i < _length; i++) {
+        for (int i=0;i < strlen(_string); i++) {
             _p[i] = _string[i];
         }
 
-        _p[_length] = char('\0');
+        _p[strlen(_string)] = char('\0');
     }
 
     void _nullify_string() {
