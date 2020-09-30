@@ -52,8 +52,21 @@ public:
         return *this;
     }
 
+    friend bool operator==(Test & lhs, Test & rhs) {
+        return bool(strcmp(lhs._p, rhs._p));
+    }
+
+    friend std::ostream & operator<<(std::ostream & os, Test & obj) {
+        return os << obj.get_p();
+    }
+
     const char * get_p() const {
         return _p;
+    }
+
+    void set_p(const char * source) {
+        _nullify_string();
+        _copy_string(source);
     }
 };
 
@@ -66,7 +79,7 @@ int cmp_int(const void * lhs, const void * rhs) {
 }
 
 bool cmp_bool(Test & lhs, Test & rhs) {
-    return strcmp(lhs.get_p(), rhs.get_p());
+    return lhs == rhs;
 }
 
 void print_array(const Test * arr, const int size) {
@@ -82,6 +95,16 @@ int main(int argc, char const *argv[])
 
     arr[0] = Test("IA-192");
     arr[1] = Test("AI-192");
+
+    Test a = arr[0];
+
+    std::cout << a << std::endl;
+
+    a.set_p("Test");
+
+    std::cout << a << std::endl;
+
+    std::cout << (arr[0] == arr[1]) << std::endl;
 
     qsort(arr, SIZE, sizeof(*arr), cmp_int);
 
