@@ -17,7 +17,7 @@ private:
             _p[i] = _string[i];
         }
 
-        _p[strlen(_string)] = char('\0');
+        _p[strlen(_string)] = '\0';
     }
 
     void _nullify_string() {
