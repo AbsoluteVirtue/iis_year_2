@@ -19,13 +19,15 @@ public:
     Coordinates() {}
 
     // параметризированный конструктор
-    Coordinates(const int x, const int y, const char * desc) {
+    Coordinates(const int x, const int y, const char * desc = NULL) {
 
         this->x = x;
         this->y = y;
 
-        this->desc = new char [strlen(desc) + 1];
-        strcpy(this->desc, desc);
+        if (desc) {
+            this->desc = new char [strlen(desc) + 1];
+            strcpy(this->desc, desc);
+        }
 
     }
 
@@ -35,48 +37,32 @@ public:
         this->x = other.x;
         this->y = other.y;
 
-        if (this->desc == nullptr) {
+        if (this->desc == nullptr && other.desc) {
             this->desc = new char [strlen(other.desc) + 1];
             strcpy(this->desc, other.desc);
         }
 
     }
 
-    void set_x(const int x) {
-
-        this->x = x;
-
-    }
-
-    void set_y(const int y) {
-
-        this->y = y;
-
-    }
-
-    void set_desc(const char * desc) {
-
-        if (this->desc != nullptr) {
-           delete [] this->desc;
-           this->desc = nullptr;
-        }
-        this->desc = new char [strlen(desc) + 1];
-        strcpy(this->desc, desc);
-
-    }
-
     // свой метод для вывода
-    void print() {
+    void print() const {
 
-        std::cout << this->desc << ": " << this->x << ", " << this->y << std::endl;
+        std::cout << ((this->desc) ? this->desc : "") << ": " << this->x << ", " << this->y << std::endl;
 
     }
 
     // перегрузка оператора вывода
     friend std::ostream & operator<<(std::ostream & os, const Coordinates & other) {
 
-        os << other.desc << ": " << other.x << ", " << other.y;
-        return os;
+        return os << ((other.desc) ? other.desc : "") << ": " << other.x << ", " << other.y;
+
+    }
+
+    // перегрузка оператора сложения двух объектов
+    Coordinates operator+(const Coordinates & other) const {
+
+        Coordinates tmp(other.x + x, other.y + y);
+        return tmp;
 
     }
 
@@ -86,12 +72,14 @@ public:
         this->x = other.x;
         this->y = other.y;
 
-        if (this->desc != nullptr) {
-           delete [] this->desc;
-           this->desc = nullptr;
+        if (other.desc) {
+            if (this->desc != nullptr) {
+                delete [] this->desc;
+                this->desc = nullptr;
+            }
+            this->desc = new char [strlen(other.desc) + 1];
+            strcpy(this->desc, other.desc);
         }
-        this->desc = new char [strlen(other.desc) + 1];
-        strcpy(this->desc, other.desc);
 
         return *this;
 
@@ -126,18 +114,12 @@ public:
 
 int main(int argc, char const *argv[])
 {
-    // прямой вызов конструктора по умолчанию
-    Coordinates coord1 = Coordinates();
-
-    // прямой вызов мутаторов (setter)
-    coord1.set_x(1);
-    coord1.set_y(2);
-    coord1.set_desc("hello");
+    // прямой вызов параметрического конструктора
+    Coordinates coord1 = Coordinates(1, 2, "hello");
 
     // вывод состояния объекта через свой метод явно
     coord1.print();
 
-    // прямой вызов параметрического конструктора
     Coordinates coord2(10, 20, "world");
 
     // вывод состояния объекта через перегруженный оператор << неявно
@@ -145,8 +127,6 @@ int main(int argc, char const *argv[])
 
     // присваивание по значению (deep copy)
     Coordinates coord3 = coord2;
-
-    coord3.set_desc("test mod state");
 
     // инициализация массива объектов
     std::list<Coordinates> arr = {coord1, coord2, coord3};
@@ -165,6 +145,10 @@ int main(int argc, char const *argv[])
 
     // добавление элемента в массив
     arr.push_back(coord4);
+
+    Coordinates coord5 = coord1 + coord2;
+
+    arr.push_back(coord5);
 
     int i = 1;
     for (const Coordinates & coord : arr) {
