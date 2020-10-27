@@ -1,5 +1,8 @@
+#include <algorithm>
 #include <iostream>
+#include <list>
 #include <string>
+#include <vector>
 
 // абстрактный базовый класс
 class HttpBase {
@@ -107,6 +110,14 @@ int main(int argc, char const *argv[])
     // необходима перегрузка для специального случая
     HttpSpec connect_spec;
     process_connection(connect_spec);
+
+    std::list<int> v;
+    v.push_back(2);
+    v.push_back(35);
+
+    for (auto c : v) {
+        std::cout << c << std::endl;
+    }
 
     return 0;
 }
