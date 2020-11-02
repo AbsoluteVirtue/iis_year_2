@@ -1,16 +1,15 @@
+#include <algorithm>
 #include <iostream>
+#include <list>
 #include <string>
+#include <vector>
 
 // абстрактный базовый класс
 class HttpBase {
 public:
     // виртуальные методы без реализации
-    virtual void get(std::string args) {
-        std::cout << " GET not implemented "<< std::endl;
-    }
-    virtual void post(std::string args) {
-        std::cout << " POST not implemented "<< std::endl;
-    }
+    virtual void get(std::string args) = 0;
+    virtual void post(std::string args) = 0;
 };
 
 
@@ -30,6 +29,15 @@ public:
             msg = "failed request";
         }
         std::cout << args << " GET - " << output() << std::endl;
+    }
+
+    // переопределение метода базового класса
+    void post(std::string args) override {
+        if(args == "") {
+            status_code = 400;
+            msg = "failed request";
+        }
+        std::cout << args << " POST - " << output() << std::endl;
     }
 };
 
@@ -107,6 +115,14 @@ int main(int argc, char const *argv[])
     // необходима перегрузка для специального случая
     HttpSpec connect_spec;
     process_connection(connect_spec);
+
+    std::vector<int> v;
+    v.push_back(2);
+    v.push_back(35);
+
+    for (auto c : v) {
+        std::cout << c << std::endl;
+    }
 
     return 0;
 }
