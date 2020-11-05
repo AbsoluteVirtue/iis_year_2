@@ -1,26 +1,36 @@
-#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 
-using namespace std;
+#include <iostream>
+#include <vector>
 
 
 int main(int argc, char const *argv[])
 {
+    int x = 0, y = 0;
+    // ввод с клавиатуры - аналог scanf
+    std::cin >> x >> y;
+    // использование динамического массива из шаблонов STL (standard template library)
+    std::vector<int> B = {x, y};
+    // использование метода для вывода данных в терминал напрямую из объекта std::cout
+    std::cout.operator<<("size: ").operator<<(B.size()).operator<<("\n");
+    // использование встроенных указателей (итераторов) для доступа к элементам вектора по адресу
+    for (auto it = B.begin(); it != B.end(); ++it)
+    {
+        std::cout << *it << "\t";
+    }
+    std::cout << "\n";
+    // добавление нового элемента в вектор
+    B.push_back(100);
 
-    int a,b,
-    *p=&a,
-    &r=a;
-    // float &c=a;
-    const float &d=a;
-    // int &c;
-    a=0;
-    cout<<a<<" "<<r<<" "<<*p<<endl;
-    b=r++;
-    *p=a;
-    cout<<a<<" "<<r<<" "<<*p<<endl;   
-    // c=b;
-    // int &f=2;
-    const int &ff=0.99;
-    int * const  & r1=p;
-    int * const   & r2=0;
-
+    std::cout << "size: " << B.size() << std::endl;
+    // скрытое использование итераторов вектора для доступа к элементам вектора по ссылке
+    for (const int elem : B)
+    {
+        std::cout << elem << std::endl;
+    }
+    std::cout << std::endl;
+    
+    return 0;
 }

@@ -1,6 +1,9 @@
 #ifndef __SWBJAW_H__
 #define __SWBJAW_H__
 
+class SwbjawException;
+class Swbjaw;
+
 #include <ostream>
 
 
