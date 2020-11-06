@@ -2,6 +2,10 @@
 
 using namespace std;
 
+/*
+    24233
+*/
+
 
 class X { 
     int i; double t;

@@ -3,6 +3,23 @@
 
 using namespace std;
 
+/*
+    8 8 8
+    7 7 7
+    8 8
+    -----------------------------------
+    0.1 6
+    3
+    1.5 1
+    5 8
+    1 7
+    0 5
+    3
+    3
+    1.5 2
+    1 8
+*/
+
 
 // void f(int x, char *s="hello", int y){ cout<<0<<endl;}
 
@@ -22,9 +39,30 @@ void f(float x, char *s){ cout<<x<<" "<<4<<endl;}
 
 void f(double x,double s){ cout<<x<<" "<<8<<endl;}
 
+void f1() {
+    int a,b,
+    *p=&a,
+    &r=a;
+    // float &c=a;
+    const float &d=a;
+    // int &c;
+    a=8;
+    cout<<a<<" "<<r<<" "<<*p<<endl;
+    b=r;
+    *p=a=--b;
+    cout<<a<<" "<<r<<" "<<*p<<endl;   
+    // c=b;
+    const int *const r1 = &a;
+    a++;
+    // (*r1)++;
+    cout<<a<<" "<<*r1<<endl;
+}
 
 int main(int argc, char const *argv[])
 {
+    f1();
+    cout<< "-----------------------------------" << endl;
+
     int a=-1;
     char h[0];
     float d=.1;

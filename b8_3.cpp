@@ -2,22 +2,28 @@
 
 using namespace std;
 
+/*
+    1.521.51.5
+*/
 
 class C { 
-    int i; double t;
+    int i; 
+    double t;
 
-    C( ) { i = t = 1.0; cout << i << endl; }
+    C( ) { 
+        i = t = 1.0; 
+        cout << i; }
 
 public:
     C(int k = 0, double r = 1.5) { 
         i = k; 
         t = r; 
-        cout << t << endl;
+        cout << t;
     }
     C(const C & a) { 
         i = a.i; 
         t = a.t; 
-        cout << t << endl; 
+        cout << t; 
     }
 };
 
