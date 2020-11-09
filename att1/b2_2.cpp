@@ -22,8 +22,30 @@ void f(int x,double s){ cout<<x<<" "<<7<<endl;}
 void f(double x,double s){ cout<<x<<" "<<8<<endl;}
 
 
+void f1() {
+    int a,b,
+    *p=&a,
+    &r=a;
+    // float &c=a;
+    const float &d=a;
+    // int &c;
+    a=3;
+    cout<<a<<" "<<r<<" "<<*p<<endl;
+    b=--r;
+    *p=a;
+    cout<<a<<" "<<r<<" "<<*p<<endl;   
+    // c=b;
+    const int *const r1 = &a;
+    a++;
+    // r1++;
+}
+
 int main(int argc, char const *argv[])
 {
+
+    f1();
+    cout << "----------------------------" << endl;
+
     int a=1;
     char h[0];
     float d=.1;
@@ -38,3 +60,18 @@ int main(int argc, char const *argv[])
     f(1.,1);
     // f(1,0);
 }
+
+/*
+    3 3 3
+    2 2 2
+    ----------------------------
+    1
+    0.1 6
+    1
+    0 5
+    1.5 4
+    1.5 3
+    1 8
+    1 7
+    1 8
+*/

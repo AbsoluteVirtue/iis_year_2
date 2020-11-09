@@ -4,10 +4,11 @@ using namespace std;
 
 
 class C { 
-    int i; double t;
-
-    C( ) { i = t = 1.0; cout << i << endl; }
-
+    int i; 
+    double t;
+    C() { 
+        i = t = 1.0; 
+        cout << i << endl; }
 public:
     C(int k = 0, double r = 1.5) { 
         i = k; 
@@ -32,3 +33,10 @@ int main(int argc, char const *argv[])
     b = c = e;
 
 }
+
+/*
+    1.5
+    2
+    1.5
+    1.5
+*/

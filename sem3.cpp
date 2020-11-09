@@ -4,12 +4,11 @@
 #include <string>
 #include <vector>
 
-// абстрактный базовый класс
+
 class HttpBase {
 public:
-    // виртуальные методы без реализации
-    virtual void get(std::string args) = 0;
-    virtual void post(std::string args) = 0;
+    virtual void get(std::string args) {};
+    virtual void post(std::string args) {};
 };
 
 
@@ -20,9 +19,7 @@ class HttpDepr : public HttpBase {
     std::string output() {
         return "status: " + std::to_string(status_code) + ", message: " + msg; 
     }
-
 public:
-    // переопределение метода базового класса
     void get(std::string args) override {
         if(args == "") {
             status_code = 400;
@@ -31,7 +28,6 @@ public:
         std::cout << args << " GET - " << output() << std::endl;
     }
 
-    // переопределение метода базового класса
     void post(std::string args) override {
         if(args == "") {
             status_code = 400;
@@ -52,7 +48,6 @@ protected:
     }
 
 public:
-    // переопределение метода базового класса
     void get(std::string args) override {
         if(args == "") {
             status_code = 400;
@@ -60,7 +55,6 @@ public:
         }
         std::cout << args << " GET - " << output() << std::endl;
     }
-    // переопределение метода базового класса
     void post(std::string args) override {
         if(args == "") {
             status_code = 400;
@@ -72,10 +66,8 @@ public:
     }
 };
 
-// множественное наследование
 class HttpSpec : public HttpDepr, public Http {
 public:
-    // расширение функционала базовых классов в дочернем классе
     void patch(std::string args) {
         if(args == "") {
             Http::status_code = 400;
@@ -87,15 +79,11 @@ public:
     }
 };
 
-// полиморфный метод для работы с объектами дочерних классов 
-// через тип базового класса
 void process_connection(HttpBase & connection) {
     connection.get("test get");
     connection.post("test post");
 }
 
-// специальный метод для решения проблемы неопределенности 
-// пространств имен при ромбовидном наследовании 
 void process_connection(HttpSpec & connection) {
     connection.HttpDepr::get("test get");
     connection.Http::post("test post");
@@ -111,18 +99,8 @@ int main(int argc, char const *argv[])
     HttpDepr connect_depr;
     process_connection(connect_depr);
 
-    // пример ромбовидного наследования, полиморфная функция не работает
-    // необходима перегрузка для специального случая
     HttpSpec connect_spec;
     process_connection(connect_spec);
-
-    std::vector<int> v;
-    v.push_back(2);
-    v.push_back(35);
-
-    for (auto c : v) {
-        std::cout << c << std::endl;
-    }
 
     return 0;
 }

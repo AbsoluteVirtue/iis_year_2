@@ -36,3 +36,17 @@ int main(int argc, char const *argv[])
     cout << i1.Get() << i2.Get() << endl;
 
 }
+
+/*
+    one0
+    two 20
+    two 400
+    end  400
+    three 420
+    two 1000
+    end  1000
+    end  1420
+    1420420
+    end  420
+    end  1420
+*/
