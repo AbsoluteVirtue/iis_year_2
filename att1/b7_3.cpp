@@ -3,10 +3,13 @@
 
 using namespace std;
 
+/*
+    0103.5633
+*/
 
 class A { 
-    int i; double t;
-
+    int i; 
+    double t;
     // A(int k) { 
     //     i = k; 
     //     t = 0;
@@ -30,12 +33,10 @@ public:
 
 int main(int argc, char const *argv[])
 {
-
     A a;
     A b(1); 
     A c (0, 3.5); 
     A d = c; 
     A e (6, 3);
     c = d = e;
-
 }

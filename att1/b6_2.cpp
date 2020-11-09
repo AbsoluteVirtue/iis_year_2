@@ -3,6 +3,23 @@
 
 using namespace std;
 
+/*
+    8 8 8
+    7 7 7
+    8 8
+    -----------------------------------
+    0.1 6
+    3
+    1.5 1
+    5 8
+    1 7
+    0 5
+    3
+    3
+    1.5 2
+    1 8
+*/
+
 
 // void f(int x, char *s="hello", int y){ cout<<0<<endl;}
 
@@ -40,12 +57,19 @@ void f1() {
     // (*r1)++;
     cout<<a<<" "<<*r1<<endl;
 }
+<<<<<<< HEAD:att1/b6_2.cpp
 
+=======
+>>>>>>> eb44ead908889dadd2641675c618c92546cca60f:b6_2.cpp
 
 int main(int argc, char const *argv[])
 {
     f1();
+<<<<<<< HEAD:att1/b6_2.cpp
     cout << "----------------------------" << endl;
+=======
+    cout<< "-----------------------------------" << endl;
+>>>>>>> eb44ead908889dadd2641675c618c92546cca60f:b6_2.cpp
 
     int a=-1;
     char h[0];

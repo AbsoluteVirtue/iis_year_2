@@ -3,23 +3,23 @@
 
 using namespace std;
 
+/*
+    10262
+*/
+
 class X { 
     int a, b;
-
 public: 
-    X() {};
-    X(const X & x){ 
-        a = x.a; 
-        b = x.b; 
-        cout << a << endl; 
+    X (const X & x){
+        a = x.a;
+        b = x.b;
+        cout << a; 
     }
-    X(float x, int y) {}
-    X(int a) { 
+    X (int a=0, int b=0) { 
         this -> a = a; 
         b = a; 
-        cout << b << endl;
-    }
-
+        cout << b;
+    } 
 };
 
 void f () 

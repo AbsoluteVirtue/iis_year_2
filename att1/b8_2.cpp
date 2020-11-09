@@ -2,6 +2,21 @@
 
 using namespace std;
 
+/*
+    -10 -10 -10
+    -11 -11 -11
+    -----------------------------------
+    1.9 3
+    1
+    0.1 6
+    1
+    0 5
+    1.8 4
+    1.1 8
+    2 7
+    1 8
+*/
+
 
 void f(double x, char *s){ cout<<x<<" "<<3<<endl;}
 
@@ -40,10 +55,36 @@ void f1() {
 }
 
 
+void f1() {
+    int a,b,
+    *p=&a,
+    &r=a;
+    // float &c=a;
+    const float &d=a;
+    // int &c;
+    a=-10;
+    cout<<a<<" "<<r<<" "<<*p<<endl;
+    b=--r;
+    *p=a;
+    cout<<a<<" "<<r<<" "<<*p<<endl;   
+    const int *const r1 = &a;
+    a++;
+    // r1++;
+    // c=b;
+}
+
+
 int main(int argc, char const *argv[])
 {
+<<<<<<< HEAD:att1/b8_2.cpp
     f1();
     cout << "----------------------------" << endl;
+=======
+
+    f1();
+
+    cout<< "-----------------------------------" << endl;
+>>>>>>> eb44ead908889dadd2641675c618c92546cca60f:b8_2.cpp
 
     int a=1;
     char h[0];
