@@ -5,14 +5,34 @@
 #include <vector>
 
 
+/*
+    HttpDepr    Http
+        \      /
+        HttpSpec
+
+
+        HttpBase
+        /      \
+    HttpDepr    Http
+        \      /
+        HttpSpec
+
+
+    HttpBase    HttpBase
+      \          /
+    HttpDepr    Http
+        \      /
+        HttpSpec
+*/
+
+
 class HttpBase {
 public:
-    virtual void get(std::string args) {};
-    virtual void post(std::string args) {};
+    virtual void get(std::string args) = 0;
+    virtual void post(std::string args) = 0;
 };
 
-
-class HttpDepr : public HttpBase {
+class HttpDepr : virtual public HttpBase {
     std::string msg{"successful request"};
     int status_code{200};
 
@@ -25,7 +45,7 @@ public:
             status_code = 400;
             msg = "failed request";
         }
-        std::cout << args << " GET - " << output() << std::endl;
+        std::cout << args << ", GET - " << output() << std::endl;
     }
 
     void post(std::string args) override {
@@ -33,12 +53,11 @@ public:
             status_code = 400;
             msg = "failed request";
         }
-        std::cout << args << " POST - " << output() << std::endl;
+        std::cout << args << ", POST - " << output() << std::endl;
     }
 };
 
-
-class Http : public HttpBase {
+class Http : virtual public HttpBase {
 protected:
     std::string msg{"successful request"};
     int status_code{200};
@@ -46,14 +65,13 @@ protected:
     std::string output() {
         return "[" + std::to_string(status_code) + "]: " + msg; 
     }
-
 public:
     void get(std::string args) override {
         if(args == "") {
             status_code = 400;
             msg = "failed request";
         }
-        std::cout << args << " GET - " << output() << std::endl;
+        std::cout << args << ", GET > " << output() << std::endl;
     }
     void post(std::string args) override {
         if(args == "") {
@@ -62,12 +80,18 @@ public:
         } else {
             status_code = 201;
         }
-        std::cout << args << " POST - " << output() << std::endl;
+        std::cout << args << ", POST > " << output() << std::endl;
     }
 };
 
 class HttpSpec : public HttpDepr, public Http {
 public:
+    void get(std::string args) {
+        HttpDepr::get(args);
+    } 
+    void post(std::string args) {
+        Http::post(args);
+    } 
     void patch(std::string args) {
         if(args == "") {
             Http::status_code = 400;
@@ -82,12 +106,6 @@ public:
 void process_connection(HttpBase & connection) {
     connection.get("test get");
     connection.post("test post");
-}
-
-void process_connection(HttpSpec & connection) {
-    connection.HttpDepr::get("test get");
-    connection.Http::post("test post");
-    connection.patch("test patch");
 }
 
 
