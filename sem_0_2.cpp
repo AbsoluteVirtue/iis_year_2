@@ -65,7 +65,7 @@ int main(int argc, char const *argv[])
         printf("%d\t", it);
     }
 
-        const char * s1 = "MI-203";
+    const char * s1 = "MI-203";
 
     std::cout << s1 << "\n";
 
