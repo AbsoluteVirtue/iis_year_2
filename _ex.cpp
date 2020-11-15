@@ -6,29 +6,20 @@
 #include <string>
 
 
-size_t slen(const char * str) {
-    size_t i = 0;
-    while (str[++i]);
-    return i;
-}
-
-
-void scpy(const char * src, char ** dest) {
-    size_t len = slen(src);
-    *dest = (char *)malloc(len + 1);
-    for (size_t i = 0; i < len + 1; i++)
-    {
-        (*dest)[i] = src[i];
-    }
+int pt_func_compare(const void * a, const void * b)
+{
+    return *(int *)a - *(int *)b;
 }
 
 
 int main(int argc, char const *argv[])
 {
-    const char * p = "test";
-    char * t;
-    scpy(p, &t);
-    std::cout << p << " " << t << std::endl;
+    int c_array [10] = {};
+    
+    for (size_t i = 0; i < 10; i++)
+    {
+        c_array[i] = rand() % 100;
+    }
 
-    return 0;
+    qsort(c_array, 10, sizeof(*c_array), pt_func_compare);
 }
