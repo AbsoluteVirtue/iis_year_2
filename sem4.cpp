@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
@@ -6,12 +5,22 @@
 #include <string>
 
 
+template <unsigned N, unsigned M>
+int c_string_compare(const char (&a)[N], const char (&b)[M])
+{
+    return strcmp(a, b);
+}
+
 template <typename T>
 class queue {
     size_t _size{0};
     T * arr{NULL};
-
 public:
+    queue(std::initializer_list<T> il) {
+        _size = il.size();
+        arr = (T *)calloc(_size, sizeof(T));
+        std::copy(il.begin(), il.end(), arr);
+    };
     ~queue() {
         free(arr);
     }
@@ -52,51 +61,28 @@ public:
     const T * end() const {
         return arr + _size;
     }
+    bool operator<(const queue<T> & other); 
 };
 
-int pt_func_compare(const void * a, const void * b)
-{
-    return *(int *)a - *(int *)b;
-}
-
 template <typename T>
-T generic_compare(const T * a, const T * b)
-{
-    return *a - *b;
-}
+bool queue<T>::operator<(const queue<T> & other) {
+    if ( this->_size != other._size)
+        return false;
 
-template <typename T, unsigned N, unsigned M>
-int string_compare(const T (&a)[N], const T (&b)[M])
-{
-    return strcmp(a, b);
+    for (size_t i = 0; i < this->_size; i++)
+    {
+        if (other.arr[i] != this->arr[i]) return false;
+    }
+    return true;
 }
 
 
 int main(int argc, char const *argv[])
 {
-    int a = 1, b = 88, r;
+    std::cout << c_string_compare("hello", "world") << std::endl;
 
-    r = generic_compare(&a, &b);
+    queue<int> Q = {1, 2, 3};
+    queue<int> R = {1, 2, 3};
 
-    r = string_compare("test", "hello");
-
-    int c_array [10] = {};
-    
-    for (size_t i = 0; i < 10; i++)
-    {
-        c_array[i] = rand() % 100;
-    }
-
-    qsort(c_array, 10, sizeof(*c_array), pt_func_compare);
-
-    queue<int> generic_q;
-
-    generic_q.push_back(100);
-    generic_q.push_back(200);
-
-    std::cout << generic_q.size() << std::endl;
-    for (const int elem : generic_q)
-    {
-        std::cout << elem << "\t";
-    }
+    std::cout << ((Q < R) ? "true" : "false");
 }
