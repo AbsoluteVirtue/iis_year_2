@@ -66,7 +66,7 @@ public:
 
 template <typename T>
 bool queue<T>::operator<(const queue<T> & other) {
-    if ( this->_size != other._size)
+    if (this->_size != other._size)
         return false;
 
     for (size_t i = 0; i < this->_size; i++)
