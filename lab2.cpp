@@ -7,10 +7,10 @@
 
 
 class Test {
-private:
     char * _p {nullptr};
 
-    void _copy_string(const char * _string) {
+    void _copy_string(const char * _string)
+    {
         _p = new char [strlen(_string) + 1];
 
         for (int i=0;i < strlen(_string); i++) {
@@ -20,8 +20,10 @@ private:
         _p[strlen(_string)] = '\0';
     }
 
-    void _nullify_string() {
-        if (_p != nullptr) {
+    void _nullify_string()
+    {
+        if (_p != nullptr)
+        {
             delete [] _p;
             _p = nullptr;
         }
@@ -29,60 +31,72 @@ private:
 public:
     Test() {}
 
-    Test(const char * str) {
+    Test(const char * str)
+    {
         _copy_string(str);
     }
 
-    Test(const Test & obj) {
+    Test(const Test & obj)
+    {
         *this = obj;
     }
 
-    Test(Test && obj) {
+    Test(Test && obj)
+    {
         *this = std::move(obj);
     }
 
-    ~Test() {
+    ~Test()
+    {
         _nullify_string();
     }
 
-    Test & operator =(const Test & obj) {
+    Test & operator =(const Test & obj)
+    {
         _nullify_string();
         _copy_string(obj._p);
 
         return *this;
     }
 
-    friend bool operator==(Test & lhs, Test & rhs) {
+    friend bool operator==(Test & lhs, Test & rhs)
+    {
         return bool(strcmp(lhs._p, rhs._p));
     }
 
-    friend std::ostream & operator<<(std::ostream & os, Test & obj) {
+    friend std::ostream & operator<<(std::ostream & os, Test & obj)
+    {
         return os << obj.get_p();
     }
 
-    const char * get_p() const {
+    const char * get_p() const
+    {
         return _p;
     }
 
-    void set_p(const char * source) {
+    void set_p(const char * source)
+    {
         _nullify_string();
         _copy_string(source);
     }
 };
 
 
-int cmp_int(const void * lhs, const void * rhs) {
+int cmp_int(const void * lhs, const void * rhs)
+{
     return strcmp(
         ((Test *)lhs)->get_p(),
         ((Test *)rhs)->get_p()
     );
 }
 
-bool cmp_bool(Test & lhs, Test & rhs) {
+bool cmp_bool(Test & lhs, Test & rhs)
+{
     return lhs == rhs;
 }
 
-void print_array(const Test * arr, const int size) {
+void print_array(const Test * arr, const int size)
+{
     for (int i = 0; i < size; ++i) {
         std::cout << arr[i].get_p() << std::endl;
     }

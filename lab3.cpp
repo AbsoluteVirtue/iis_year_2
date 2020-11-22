@@ -7,12 +7,11 @@ class Coordinates {
     int x {0};
     int y {0};
     char * p {nullptr};
-
 public:
     Coordinates() {}
 
-    Coordinates(int _x, int _y, const char * _p) : x(_x), y(_y) {
-
+    Coordinates(int _x, int _y, const char * _p) : x(_x), y(_y)
+    {
         p = new char [strlen(_p) + 1];
 
         for (int i=0; i < strlen(_p); i += 1) {
@@ -22,26 +21,23 @@ public:
         p[strlen(_p)] = '\0';
     }
 
-    Coordinates(const Coordinates & data) {
-
+    Coordinates(const Coordinates & data) 
+    {
         * this = data;
-
     }
 
-    Coordinates(Coordinates && data) noexcept {
-
+    Coordinates(Coordinates && data) noexcept
+    {
         * this = std::move(data);
-
     }
 
-    ~Coordinates() {
-
+    ~Coordinates()
+    {
         delete [] p;
-
     }
 
-    Coordinates & operator =(const Coordinates & data) {
-
+    Coordinates & operator=(const Coordinates & data) 
+    {
         x = data.x;
         y = data.y;
 
@@ -55,11 +51,10 @@ public:
         }
 
         return * this;
-
     }
 
-    Coordinates & operator =(Coordinates && data) noexcept {
-
+    Coordinates & operator=(Coordinates && data) noexcept
+    {
         if (this != &data) {
             x = data.x;
             data.x = 0;
@@ -73,40 +68,41 @@ public:
         }
 
         return * this;
-
     }
 
-    friend std::ostream & operator<<(std::ostream & outs, const Coordinates & data) {
-
+    friend std::ostream & operator<<(std::ostream & outs, const Coordinates & data) 
+    {
         outs << data.p;
         return outs;
-
     }
 
-    const char * get_p() const {
+    const char * get_p() const
+    {
         return p;
     }
 
-    const int get_x() const {
+    const int get_x() const
+    {
         return x;
     }
 
-    const int get_y() const {
+    const int get_y() const
+    {
         return y;
     }
 
-    void print() {
+    void print()
+    {
         std::cout << "x: " << x << "; y: " << y << std::endl;
         if (p != nullptr) {
             std::cout << p << std::endl;
         }
     }
-
 };
 
 
-int main(int argc, char const *argv[]) {
-
+int main(int argc, char const *argv[]) 
+{
     Coordinates c;
 
     Coordinates coord(1, 2, "hello");
