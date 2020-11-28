@@ -3,7 +3,8 @@
 #include <string>
 
 
-class Coordinates {
+class Coordinates
+{
     int x {0};
     int y {0};
     char * p {nullptr};

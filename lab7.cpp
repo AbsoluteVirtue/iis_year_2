@@ -12,11 +12,13 @@ int c_string_compare(const char (&a)[N], const char (&b)[M])
 }
 
 template <typename T>
-class queue {
+class queue
+{
     size_t _size{0};
     T * arr{NULL};
 public:
-    queue(std::initializer_list<T> il) {
+    queue(std::initializer_list<T> il)
+    {
         _size = il.size();
         arr = (T *)calloc(_size, sizeof(T));
         std::copy(il.begin(), il.end(), arr);
@@ -24,10 +26,12 @@ public:
     ~queue() {
         free(arr);
     }
-    const size_t size() const {
+    const size_t size() const
+    {
         return _size;
     }
-    void push_back(T x) {
+    void push_back(T x)
+    {
         T * tmp = (T *)calloc(_size + 1, sizeof(T));
         if (tmp == NULL) {
             return;
@@ -40,7 +44,8 @@ public:
         arr = tmp;
         _size += 1;
     }
-    void pop_front() {
+    void pop_front()
+    {
         if (!_size) {
             return;
         }
@@ -55,17 +60,20 @@ public:
         free(arr);
         arr = tmp;
     }
-    const T * begin() const {
+    const T * begin() const
+    {
         return arr;
     }
-    const T * end() const {
+    const T * end() const
+    {
         return arr + _size;
     }
     bool operator<(const queue<T> & other); 
 };
 
 template <typename T>
-bool queue<T>::operator<(const queue<T> & other) {
+bool queue<T>::operator<(const queue<T> & other)
+{
     if (this->_size != other._size)
         return false;
 

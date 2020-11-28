@@ -4,7 +4,8 @@
 #include <vector>
 
 
-class String {
+class String
+{
     char * m{nullptr};
     size_t size{0};
 public:
@@ -53,33 +54,40 @@ void print(T (&matrix)[M][N])
 }
 
 template <typename T>
-class Vector {
+class Vector 
+{
     size_t _size = 0;
     T * _list = NULL;
 public:
-    Vector(std::initializer_list<T> il) {
+    Vector(std::initializer_list<T> il)
+    {
         _size = il.size();
         _list = (T *)calloc(_size, sizeof(T));
         std::copy(il.begin(), il.end(), _list);
     }
 
-    ~Vector() {
+    ~Vector()
+    {
         free(_list);
     }
 
-    const size_t size() const {
+    const size_t size() const
+    {
         return _size;
     }
 
-    T * begin() {
+    T * begin()
+    {
         return _list;
     }
 
-    T * end() {
+    T * end()
+    {
         return (_list + _size);
     }
 
-    void push_back(T x) {
+    void push_back(T x)
+    {
         T * tmp = (T *)calloc(_size + 1, sizeof(T));
         for(size_t i = 0; i < _size; ++i) 
         {

@@ -6,14 +6,16 @@
 #define SIZE 2
 
 
-class Test {
+class Test
+{
     char * _p {nullptr};
 
     void _copy_string(const char * _string)
     {
         _p = new char [strlen(_string) + 1];
 
-        for (int i=0;i < strlen(_string); i++) {
+        for (int i=0;i < strlen(_string); i++)
+        {
             _p[i] = _string[i];
         }
 
@@ -97,7 +99,8 @@ bool cmp_bool(Test & lhs, Test & rhs)
 
 void print_array(const Test * arr, const int size)
 {
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i)
+    {
         std::cout << arr[i].get_p() << std::endl;
     }
 }

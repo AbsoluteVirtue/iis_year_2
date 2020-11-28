@@ -36,33 +36,40 @@ struct Test {
 
 
 template <typename T1, typename T2>
-class Vector {
+class Vector
+{
     size_t _size = 0;
     Test<T1, T2> * _list = NULL;
 public:
-    Vector(std::initializer_list<Test<T1, T2>> il) {
+    Vector(std::initializer_list<Test<T1, T2>> il)
+    {
         _size = il.size();
         _list = (Test<T1, T2> *)calloc(_size, sizeof(Test<T1, T2>));
         std::copy(il.begin(), il.end(), _list);
     }
 
-    ~Vector() {
+    ~Vector()
+    {
         free(_list);
     }
 
-    const size_t size() const {
+    const size_t size() const
+    {
         return _size;
     }
 
-    Test<T1, T2> * begin() {
+    Test<T1, T2> * begin()
+    {
         return _list;
     }
 
-    Test<T1, T2> * end() {
+    Test<T1, T2> * end()
+    {
         return (_list + _size);
     }
 
-    void push_back(Test<T1, T2> x) {
+    void push_back(Test<T1, T2> x)
+    {
         Test<T1, T2> * tmp = (Test<T1, T2> *)calloc(_size + 1, sizeof(Test<T1, T2>));
         for(size_t i = 0; i < _size; ++i) 
         {
@@ -87,7 +94,8 @@ int main()
 
     v.push_back({100, "100.666"});
 
-    for (auto it : v) {
+    for (auto it : v)
+    {
         std::cout << it << "\t";
     }
 }

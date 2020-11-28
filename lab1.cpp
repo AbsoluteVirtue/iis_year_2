@@ -4,12 +4,14 @@
 using namespace std;
 
 
-typedef struct _complex {
+typedef struct _complex
+{
     double real;
     double imaginary;
 } complex;
 
-complex add(complex& lhs, complex& rhs) {
+complex add(complex& lhs, complex& rhs)
+{
     complex result = {};
 
     result.real = lhs.real + rhs.real;
@@ -18,7 +20,8 @@ complex add(complex& lhs, complex& rhs) {
     return result;
 }
 
-complex sub(complex& lhs, complex& rhs) {
+complex sub(complex& lhs, complex& rhs)
+{
     complex result = {};
 
     result.real = lhs.real - rhs.real;
@@ -27,7 +30,8 @@ complex sub(complex& lhs, complex& rhs) {
     return result;
 }
 
-complex mul(complex& lhs, complex& rhs) {
+complex mul(complex& lhs, complex& rhs)
+{
     complex result = {};
 
     result.real = (lhs.real * rhs.real) - (lhs.imaginary * rhs.imaginary);
@@ -36,11 +40,13 @@ complex mul(complex& lhs, complex& rhs) {
     return result;
 }
 
-double pow_2(double& a) {
+double pow_2(double& a)
+{
     return a * a;
 }
 
-complex div(complex& lhs, complex& rhs) {
+complex div(complex& lhs, complex& rhs)
+{
     complex result = {};
 
     result.real = ((lhs.real * rhs.real) + (lhs.imaginary * rhs.imaginary)) / 
