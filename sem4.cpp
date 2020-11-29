@@ -5,7 +5,8 @@
 #include <vector>
 
 
-template <size_t M, size_t N, typename T> void print(T (&matrix)[M][N]) 
+template <size_t M, size_t N, typename T>
+void print(T (&matrix)[M][N]) 
 {
     for (size_t i = 0; i < M; i++)
     {
