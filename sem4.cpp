@@ -1,8 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cstring>
-#include <map>
-#include <vector>
 
 
 template <size_t M, size_t N, typename T> void print(T (&matrix)[M][N]) 
@@ -23,54 +20,48 @@ int _PtFuncCompare(const void * a, const void * b)
     return *(int *)a - *(int *)b;
 }
 
-template <typename _K, typename _V> 
-struct Test {
-    _K _key;
-    _V _val;
 
-    friend std::ostream & operator<<(std::ostream & os, const Test<_K, _V> & obj)
+template <typename _Key, typename _Value>
+struct Pair {
+    _Key key;
+    _Value val;
+
+    friend std::ostream & operator<<(std::ostream & os, const Pair<_Key, _Value> & obj)
     {
-        return os << obj._key << " " << obj._val;
+        return os << obj.key << " " << obj.val;
     }
 };
 
 
-template <typename T1, typename T2>
-class Vector
-{
+template <typename _K, typename _V>
+class Map {
     size_t _size = 0;
-    Test<T1, T2> * _list = NULL;
+    Pair<_K, _V> * _list = NULL;
 public:
-    Vector(std::initializer_list<Test<T1, T2>> il)
-    {
+    Map(std::initializer_list<Pair<_K, _V>> il) {
         _size = il.size();
-        _list = (Test<T1, T2> *)calloc(_size, sizeof(Test<T1, T2>));
+        _list = (Pair<_K, _V> *)calloc(_size, sizeof(Pair<_K, _V>));
         std::copy(il.begin(), il.end(), _list);
     }
 
-    ~Vector()
-    {
+    ~Map() {
         free(_list);
     }
 
-    const size_t size() const
-    {
+    const size_t size() const {
         return _size;
     }
 
-    Test<T1, T2> * begin()
-    {
+    Pair<_K, _V> * begin() {
         return _list;
     }
 
-    Test<T1, T2> * end()
-    {
+    Pair<_K, _V> * end() {
         return (_list + _size);
     }
 
-    void push_back(Test<T1, T2> x)
-    {
-        Test<T1, T2> * tmp = (Test<T1, T2> *)calloc(_size + 1, sizeof(Test<T1, T2>));
+    void push_back(Pair<_K, _V> x) {
+        Pair<_K, _V> * tmp = (Pair<_K, _V> *)calloc(_size + 1, sizeof(Pair<_K, _V>));
         for(size_t i = 0; i < _size; ++i) 
         {
             tmp[i] = _list[i];
@@ -80,22 +71,24 @@ public:
         free(_list);
         _list = tmp;
     }
-
-    friend std::ostream & operator<<(std::ostream & os, const Vector<T1, T2> & obj) 
-    {
-        return os << *(obj.begin());
-    }
 };
 
 
 int main()
 {
-    Vector<int, std::string> v = { {1, "one"}, {2, "two"} };
+    Map<std::string, int> v = {
+        {"goodbye", 8}, 
+        {"alpha", 9}, 
+        {"zulu", 0}, 
+        {"charlie", 11},
+    };
 
-    v.push_back({100, "100.666"});
+    v.push_back({"hotel", 100});
 
     for (auto it : v)
     {
         std::cout << it << "\t";
     }
+
+    return 0;
 }
