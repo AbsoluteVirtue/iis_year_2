@@ -11,6 +11,7 @@ int c_string_compare(const char (&a)[N], const char (&b)[M])
     return strcmp(a, b);
 }
 
+
 template <typename T>
 class queue
 {
@@ -70,6 +71,7 @@ public:
     }
     bool operator<(const queue<T> & other); 
 };
+
 
 template <typename T>
 bool queue<T>::operator<(const queue<T> & other)

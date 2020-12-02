@@ -53,6 +53,7 @@ void print(T (&matrix)[M][N])
     }
 }
 
+
 template <typename T>
 class Vector 
 {
