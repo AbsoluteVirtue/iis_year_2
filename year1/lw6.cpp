@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include <iostream>
 
@@ -9,7 +10,7 @@ struct book
 private:
     char * author{nullptr};
     char * title{nullptr};
-    unsigned short yop{0};
+    uint8 yop{0};
 public:
     void fill(const char * a, const char * t, uint8 y) 
     {
@@ -47,13 +48,18 @@ public:
         yop = y;
     }
 
+    static bool comp(const book & lhs, const book & rhs) 
+    {
+        return lhs.yop < rhs.yop;
+    }
 };
+
 
 int main(int argc, char const *argv[])
 {
     book b1, b2;
-    b1.fill("John Milton", "Paradise Lost", 2020);
-    b2.fill("James Joyce", "Ulysses", 2019);
+    b2.fill("John Milton", "Paradise Lost", 2020);
+    b1.fill("James Joyce", "Ulysses", 2019);
 
     book * sob = new book [2];
     sob[0] = b1;
@@ -65,8 +71,15 @@ int main(int argc, char const *argv[])
     }
 
     b1.change_yop(1965);
-    b1.print();
+
+    std::cout << "\n";
+    std::sort(sob, sob + 2, book::comp);
+
+    for (auto i = sob; i != sob + 2; i++)
+    {
+        i->print();
+        i->clear();
+    }
     
-    b1.clear();
-    b2.clear();
+    delete [] sob;
 }
