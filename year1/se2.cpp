@@ -81,5 +81,4 @@ int main(int argc, char const *argv[])
     std::string s3 = "MI-203";
     s3 += "!";
     std::cout << s3 << "\n";
-
 }

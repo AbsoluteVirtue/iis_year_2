@@ -2,7 +2,8 @@
 #include <string>
 
 
-template <size_t M, size_t N, typename T> void print(T (&matrix)[M][N]) 
+template <size_t M, size_t N, typename T>
+void print(T (&matrix)[M][N]) 
 {
     for (size_t i = 0; i < M; i++)
     {
@@ -22,7 +23,8 @@ int _PtFuncCompare(const void * a, const void * b)
 
 
 template <typename _Key, typename _Value>
-struct Pair {
+struct Pair
+{
     _Key key;
     _Value val;
 
@@ -34,33 +36,40 @@ struct Pair {
 
 
 template <typename _K, typename _V>
-class Map {
+class Map
+{
     size_t _size = 0;
     Pair<_K, _V> * _list = NULL;
 public:
-    Map(std::initializer_list<Pair<_K, _V>> il) {
+    Map(std::initializer_list<Pair<_K, _V>> il)
+    {
         _size = il.size();
         _list = (Pair<_K, _V> *)calloc(_size, sizeof(Pair<_K, _V>));
         std::copy(il.begin(), il.end(), _list);
     }
 
-    ~Map() {
+    ~Map()
+    {
         free(_list);
     }
 
-    const size_t size() const {
+    const size_t size() const
+    {
         return _size;
     }
 
-    Pair<_K, _V> * begin() {
+    Pair<_K, _V> * begin()
+    {
         return _list;
     }
 
-    Pair<_K, _V> * end() {
+    Pair<_K, _V> * end()
+    {
         return (_list + _size);
     }
 
-    void push_back(Pair<_K, _V> x) {
+    void push_back(Pair<_K, _V> x)
+    {
         Pair<_K, _V> * tmp = (Pair<_K, _V> *)calloc(_size + 1, sizeof(Pair<_K, _V>));
         for(size_t i = 0; i < _size; ++i) 
         {

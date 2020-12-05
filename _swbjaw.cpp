@@ -11,6 +11,7 @@ std::size_t _strlen(const char* start) {
    return end - start - 1;
 }
 
+
 char * & _copy_string(const char * _string) {
 
     std::size_t _length = _strlen(_string);
@@ -25,17 +26,21 @@ char * & _copy_string(const char * _string) {
     return _character;
 }
 
+
 SwbjawException::SwbjawException(const char * msg) {
     _message = _copy_string(msg);
 }
+
 
 const char *  SwbjawException::what() const throw() {
     return _message;
 }
 
+
 Swbjaw::Swbjaw() : _character(nullptr) {
 
 }
+
 
 Swbjaw::Swbjaw(const char * str) {
 
@@ -43,11 +48,13 @@ Swbjaw::Swbjaw(const char * str) {
 
 }
 
+
 Swbjaw::Swbjaw(const Swbjaw & obj) {
 
     *this = obj;
 
 }
+
 
 Swbjaw::Swbjaw(Swbjaw && obj) : _character(nullptr) {
 
@@ -55,12 +62,14 @@ Swbjaw::Swbjaw(Swbjaw && obj) : _character(nullptr) {
 
 }
 
+
 Swbjaw::~Swbjaw() {
 
     delete [] _character;
     _character = nullptr;
 
 }
+
 
 Swbjaw & Swbjaw::operator =(const Swbjaw & obj) {
 
@@ -73,6 +82,7 @@ Swbjaw & Swbjaw::operator =(const Swbjaw & obj) {
     return *this;
 }
 
+
 Swbjaw & Swbjaw::operator =(Swbjaw && obj) noexcept {
 
     if (this != &obj) {
@@ -84,6 +94,7 @@ Swbjaw & Swbjaw::operator =(Swbjaw && obj) noexcept {
 
     return *this;
 }
+
 
 Swbjaw Swbjaw::operator +(const Swbjaw & obj) {
 
@@ -106,6 +117,7 @@ Swbjaw Swbjaw::operator +(const Swbjaw & obj) {
 
     return ret;
 }
+
 
 std::ostream & operator <<(std::ostream & outs, const Swbjaw& obj) {
 

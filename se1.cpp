@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+
 struct Test {
     char * p {nullptr};
 
@@ -29,9 +30,11 @@ int cmp(const void * lhs, const void * rhs) {
     return strcmp(((Test *)lhs)->p, ((Test *)rhs)->p);
 }
 
+
 bool cmp_bool(Test & lhs, Test & rhs) {
     return strcmp(lhs.p, rhs.p);
 }
+
 
 void print_array(const Test * arr, const int size) {
     for (int i = 0; i < size; ++i) {

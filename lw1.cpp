@@ -10,6 +10,7 @@ typedef struct _complex
     double imaginary;
 } complex;
 
+
 complex add(complex& lhs, complex& rhs)
 {
     complex result = {};
@@ -19,6 +20,7 @@ complex add(complex& lhs, complex& rhs)
 
     return result;
 }
+
 
 complex sub(complex& lhs, complex& rhs)
 {
@@ -30,6 +32,7 @@ complex sub(complex& lhs, complex& rhs)
     return result;
 }
 
+
 complex mul(complex& lhs, complex& rhs)
 {
     complex result = {};
@@ -40,10 +43,12 @@ complex mul(complex& lhs, complex& rhs)
     return result;
 }
 
+
 double pow_2(double& a)
 {
     return a * a;
 }
+
 
 complex div(complex& lhs, complex& rhs)
 {
@@ -56,6 +61,7 @@ complex div(complex& lhs, complex& rhs)
 
     return result;
 }
+
 
 int main(int argc, char * const argv[])
 {
@@ -78,5 +84,4 @@ int main(int argc, char * const argv[])
     res = div(first, second);
 
     cout << res.real << " " << res.imaginary << endl;
-
 }

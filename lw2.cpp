@@ -92,10 +92,12 @@ int cmp_int(const void * lhs, const void * rhs)
     );
 }
 
+
 bool cmp_bool(Test & lhs, Test & rhs)
 {
     return lhs == rhs;
 }
+
 
 void print_array(const Test * arr, const int size)
 {

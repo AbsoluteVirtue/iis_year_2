@@ -90,19 +90,19 @@ void q4()
 
 int compare(const void *a, const void *b)
 {
-    return (strlen((char *)a) - strlen((char *)b));
+    return ((*(char **)a) - (*(char **)b));
 }
 
 void q5()
 {
-    char *a[] = {"Alpha", "Bravo", "Charlie"};
-    qsort(a, 3, sizeof(char *), compare);
+    char *a[] = {"Charlie", "Zulu", "Bravo"};
+    qsort(a, 3, sizeof(char **), compare);
 }
 
 ///////////////////////////////////////////
 
 int main(int argc, char const *argv[])
 {
-
+    q5();
     return 0;
 }
