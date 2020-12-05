@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 
+
 int main(int argc, char const *argv[])
 {
     std::istringstream buf;
