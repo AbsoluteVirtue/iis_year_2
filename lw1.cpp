@@ -1,87 +1,136 @@
+#include <ciso646>
+#include <cstring>
+#include <ctime>
+#include <cstdio>
+#include <cstdlib>
+
 #include <iostream>
 
-
-using namespace std;
-
-
-typedef struct _complex
+struct Rerr
 {
-    double real;
-    double imaginary;
-} complex;
+    int _val;
+    int _err;
+};
 
-
-complex add(complex& lhs, complex& rhs)
+struct Vector
 {
-    complex result = {};
+    size_t _size = 0;
+    int * _list = NULL;
+};
 
-    result.real = lhs.real + rhs.real;
-    result.imaginary = lhs.imaginary + rhs.imaginary;
+void initialize(Vector * v);
+int allocate(Vector * v, size_t len);
+int add(Vector * v, int x);
+Rerr get(Vector * v, size_t index);
+int set(Vector * v, size_t index, int x);
+int calculate_norm(Vector * v);
 
-    return result;
+int main(int argc, char const *argv[])
+{
+    Vector A;
+    initialize(&A);
+
+    #define N 10
+    srand(time(NULL));
+
+    allocate(&A, N);
+
+    for (size_t i = 0; i < N; ++i)
+    {
+        set(&A, i, rand() % 100);
+        printf("%d\t", get(&A, i));
+    }
+    
+    printf("\n");
+
 }
 
-
-complex sub(complex& lhs, complex& rhs)
+int calculate_norm(Vector * v)
 {
-    complex result = {};
+    int sum = 0;
+    for (size_t i = 0; i < v->_size; i++)
+    {
+        sum += v->_list[i];
+    }
 
-    result.real = lhs.real - rhs.real;
-    result.imaginary = lhs.imaginary - rhs.imaginary;
-
-    return result;
+    return sum;
 }
 
-
-complex mul(complex& lhs, complex& rhs)
+int set(Vector * v, size_t index, int x)
 {
-    complex result = {};
+    if (v->_size < 1 or index < 0 or index > v->_size - 1)
+    {
+        return 1;
+    }
 
-    result.real = (lhs.real * rhs.real) - (lhs.imaginary * rhs.imaginary);
-    result.imaginary = (lhs.real * rhs.imaginary) + (lhs.imaginary * rhs.real);
+    v->_list[index] = x;
 
-    return result;
+    return 0;
 }
 
-
-double pow_2(double& a)
+Rerr get(Vector * v, size_t index)
 {
-    return a * a;
+    if (v->_size < 1 or index < 0 or index > v->_size - 1)
+    {
+        return {0, 1};
+    }
+
+    return {v->_list[index], 0};
 }
 
-
-complex div(complex& lhs, complex& rhs)
+int allocate(Vector * v, size_t len)
 {
-    complex result = {};
+    if (len < 1 or len == v->_size)
+    {
+        return 1;
+    }
 
-    result.real = ((lhs.real * rhs.real) + (lhs.imaginary * rhs.imaginary)) / 
-                    (pow_2(rhs.real) + pow_2(rhs.imaginary));
-    result.imaginary = ((lhs.imaginary * rhs.real) - (lhs.real * rhs.imaginary)) /
-                        (pow_2(rhs.real) + pow_2(rhs.imaginary));
+    int * tmp = (int *)calloc(len, sizeof(int));
+    if (tmp == NULL)
+    {
+        return - 1;
+    }
 
-    return result;
+    if (v->_list != NULL)
+    {
+        for (size_t i = 0; i < (v->_size > len) ? len : v->_size; i++)
+        {
+            tmp[i] = v->_list[i];
+        }
+        free(v->_list);
+    }
+
+    v->_list = tmp;
+    v->_size = len;
+
+    return 0;
 }
 
-
-int main(int argc, char * const argv[])
+void initialize(Vector * v)
 {
+    v->_size = 0;
+    v->_list = NULL;
+}
 
-    complex first = {(double)atof(argv[1]), (double)atof(argv[2])};
-    complex second = {(double)atof(argv[3]), (double)atof(argv[4])};
+int add(Vector * v, int x)
+{
+    int * tmp = (int *)calloc(v->_size + 1, sizeof(int));
+    if (tmp == NULL)
+    {
+        return -1;
+    }
 
-    complex res = add(first, second);
+    for (size_t i = 0; i < v->_size; ++i)
+    {
+        tmp[i] = v->_list[i];
+    }
+    tmp[v->_size] = x;
 
-    cout << res.real << " " << res.imaginary << endl;
+    v->_size += 1;
 
-    res = sub(first, second);
+    free(v->_list);
 
-    cout << res.real << " " << res.imaginary << endl;
+    v->_list = tmp;
 
-    res = mul(first, second);
-
-    cout << res.real << " " << res.imaginary << endl;
-
-    res = div(first, second);
-
-    cout << res.real << " " << res.imaginary << endl;
+    return 0;
 }
