@@ -2,7 +2,6 @@
 #include <cstring>
 #include <iostream>
 
-
 typedef unsigned short uint8;
 
 struct book
@@ -15,16 +14,14 @@ public:
     void fill(const char * a, const char * t, uint8 y) 
     {
         yop = y;
-        author = new char [strlen(a) + 1];
-        if (author)
-        {
-            strcpy(author, a);
-        }
-        title = new char [strlen(t) + 1];
-        if (title)
-        {
-            strcpy(title, t);
-        }
+
+        size_t len_a = strlen(a) + 1;
+        author = new char [len_a];
+        std::move(a, a + len_a, author);
+
+        size_t len_t = strlen(t) + 1;
+        title = new char [len_t];
+        std::move(t, t + len_t, title);
     }
 
     void print() 
@@ -50,7 +47,7 @@ public:
 
     static bool comp(const book & lhs, const book & rhs) 
     {
-        return lhs.yop < rhs.yop;
+        return *(lhs.author) < *(rhs.author);
     }
 };
 
@@ -58,14 +55,18 @@ public:
 int main(int argc, char const *argv[])
 {
     book b1, b2;
-    b2.fill("John Milton", "Paradise Lost", 2020);
-    b1.fill("James Joyce", "Ulysses", 2019);
 
-    book * sob = new book [2];
+    b1.fill("Milton, John", "Paradise Lost", 2020);
+    b2.fill("Joyce, James", "Ulysses", 2019);
+
+    #define N 2
+
+    // TODO: use unique_ptr
+    book * sob = new book [N];
     sob[0] = b1;
     sob[1] = b2;
 
-    for (auto i = sob; i != sob + 2; i++)
+    for (auto i = sob; i != sob + N; i++)
     {
         i->print();
     }
@@ -73,9 +74,9 @@ int main(int argc, char const *argv[])
     b1.change_yop(1965);
 
     std::cout << "\n";
-    std::sort(sob, sob + 2, book::comp);
+    std::sort(sob, sob + N, book::comp);
 
-    for (auto i = sob; i != sob + 2; i++)
+    for (auto i = sob; i != sob + N; i++)
     {
         i->print();
         i->clear();
