@@ -28,7 +28,7 @@ class A
 public:
     void f()
     {
-        std::cout << "A";
+        std::cout << "A\n";
     }
 };
 
@@ -37,11 +37,11 @@ class B : public A
 public:
     void f()
     {
-        std::cout << "B";
+        std::cout << "B\n";
     }
 };
 
-void g(A &a)
+void g(A & a)
 {
     a.f();
 }
@@ -71,32 +71,32 @@ void q3()
 
 ///////////////////////////////////////
 
-void allocate(std::string ***A, size_t M, size_t N)
+void allocate(std::string *** A, size_t M, size_t N)
 {
-    *A = new std::string *[M];
+    *A = new std::string * [M];
     for (size_t i = 0; i < M; ++i)
     {
-        (*A)[i] = new std::string[N];
+        (*A)[i] = new std::string [N];
     }
 }
 
 void q4()
 {
     std::string **a = nullptr;
-    allocate(&a, 10, 20);
+    allocate(&a, 2, 2);
 }
 
 ///////////////////////////////////////////
 
-int compare(const void *a, const void *b)
+int compare(const void * a, const void * b)
 {
-    return ((*(char **)a) - (*(char **)b));
+    return **((char **)a) - **((char **)b);
 }
 
 void q5()
 {
-    char *a[] = {"Charlie", "Zulu", "Bravo"};
-    qsort(a, 3, sizeof(char **), compare);
+    char * A[] = {"Charlie", "Zulu", "Bravo"};
+    qsort(A, 3, sizeof(char **), compare);
 }
 
 ///////////////////////////////////////////
