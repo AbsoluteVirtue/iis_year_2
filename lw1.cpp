@@ -14,8 +14,8 @@ struct Rerr
 
 struct Vector
 {
-    size_t _size = 0;
-    int * _list = NULL;
+    size_t _size;
+    int * _list;
 };
 
 void initialize(Vector * v);
@@ -24,14 +24,16 @@ int add(Vector * v, int x);
 Rerr get(Vector * v, size_t index);
 int set(Vector * v, size_t index, int x);
 int calculate_norm(Vector * v);
+int deallocate(Vector * v);
 
 int main(int argc, char const *argv[])
 {
-    Vector A;
-    initialize(&A);
-
     #define N 10
     srand(time(NULL));
+
+    Vector A;
+
+    initialize(&A);
 
     allocate(&A, N);
 
@@ -40,9 +42,11 @@ int main(int argc, char const *argv[])
         set(&A, i, rand() % 100);
         printf("%d\t", get(&A, i));
     }
-    
     printf("\n");
 
+    deallocate(&A);
+
+    return 0;
 }
 
 int calculate_norm(Vector * v)
@@ -133,4 +137,14 @@ int add(Vector * v, int x)
     v->_list = tmp;
 
     return 0;
+}
+
+int deallocate(Vector * v)
+{
+    if (v->_list == NULL)
+    {
+        return -1;
+    }
+    free(v->_list);
+    v->_list = NULL;
 }
