@@ -1,120 +1,145 @@
-#include <iostream>
+#include <ciso646>
 #include <cstring>
-#include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+
+#include <iostream>
+#include <utility>
 
 
-class Coordinates
+struct Vector
 {
-    int x {0};
-    int y {0};
-    char * p {nullptr};
-public:
-    Coordinates() {}
+    Vector() = delete;
+    Vector(std::size_t len);
+    Vector(std::initializer_list<int> il);
+    ~Vector();
 
-    Coordinates(int _x, int _y, const char * _p) : x(_x), y(_y)
-    {
-        p = new char [strlen(_p) + 1];
-
-        for (int i=0; i < strlen(_p); i += 1) {
-            p[i] = _p[i];
-        }
-
-        p[strlen(_p)] = '\0';
-    }
-
-    Coordinates(const Coordinates & data) 
-    {
-        * this = data;
-    }
-
-    Coordinates(Coordinates && data) noexcept
-    {
-        * this = std::move(data);
-    }
-
-    ~Coordinates()
-    {
-        delete [] p;
-    }
-
-    Coordinates & operator=(const Coordinates & data) 
-    {
-        x = data.x;
-        y = data.y;
-
-        if (p == nullptr) {
-            p = new char [strlen(data.p)  + 1];
-
-            for (int i=0; i < strlen(data.p); i += 1) {
-                p[i] = data.p[i];
-            }
-            p[strlen(data.p)] = '\0';
-        }
-
-        return * this;
-    }
-
-    Coordinates & operator=(Coordinates && data) noexcept
-    {
-        if (this != &data) {
-            x = data.x;
-            data.x = 0;
-            y = data.y;
-            data.y = 0;
-
-            delete [] p;
-
-            p = data.p;
-            data.p = nullptr;
-        }
-
-        return * this;
-    }
-
-    friend std::ostream & operator<<(std::ostream & outs, const Coordinates & data) 
-    {
-        outs << data.p;
-        return outs;
-    }
-
-    const char * get_p() const
-    {
-        return p;
-    }
-
-    const int get_x() const
-    {
-        return x;
-    }
-
-    const int get_y() const
-    {
-        return y;
-    }
-
-    void print()
-    {
-        std::cout << "x: " << x << "; y: " << y << std::endl;
-        if (p != nullptr) {
-            std::cout << p << std::endl;
-        }
-    }
+    void push_back(const int & x);
+    void push_back(int && x);
+    int & operator[](std::size_t index);
+    const int operator[](std::size_t index) const;
+    Vector & operator=(const Vector & other);
+    Vector & operator=(Vector && other) noexcept;
+    friend std::ostream & operator<<(std::ostream & os, const Vector & obj);
+private:
+    std::size_t _size{0};
+    int * _list{nullptr};
 };
-
 
 int main(int argc, char const *argv[]) 
 {
-    Coordinates c;
+    #define N 10
+    srand(time(NULL));
 
-    Coordinates coord(1, 2, "hello");
+    Vector A(N);
 
-    Coordinates coord_copy(coord);
+    for (size_t i = 0; i < N; i++)
+    {
+        A[i] = rand() % 100;
+        std::cout << A[i] << "\t";
+    }
+    std::cout << std::endl;
 
-    Coordinates coord_eq = coord_copy;
+    A.push_back(100);
 
-    Coordinates coord_move = std::move(coord_eq);
-
-    std::cout << coord_move << std::endl;
+    std::cout << A;
 
     return 0;
+}
+
+void Vector::push_back(const int & x)
+{
+    int * tmp = new int [_size + 1];
+
+    std::copy(_list, _list + _size, tmp);
+    tmp[_size] = x;
+
+    _size += 1;
+
+    delete [] _list;
+
+    _list = tmp;
+}
+
+void Vector::push_back(int && x)
+{
+    int tmp = std::move(x);
+    this->push_back(tmp);
+}
+
+std::ostream & operator<<(std::ostream & os, const Vector & obj)
+{
+    for (std::size_t i = 0; i < obj._size; ++i)
+    {
+        os << obj._list[i] << "\t";
+    }
+
+    return os;
+}
+
+Vector & Vector::operator=(const Vector & other)
+{
+    if (this != &other)
+    {
+        if (_size != other._size)
+        {
+            delete [] _list;
+            _size = 0;
+            _list = nullptr;
+
+            _list = new int [other._size];
+            _size = other._size;
+        }
+        std::copy(other._list, other._list + other._size, _list);
+    }
+
+    return *this;
+}
+
+Vector & Vector::operator=(Vector && other) noexcept
+{
+    if (this != &other)
+    {
+        delete [] _list;
+        _list = std::exchange(other._list, nullptr);
+        _size = std::exchange(other._size, 0);
+    }
+
+    return *this;
+}
+
+int & Vector::operator[](std::size_t index)
+{
+    return _list[index];
+}
+
+const int Vector::operator[](std::size_t index) const
+{
+    return _list[index];
+}
+
+
+Vector::~Vector()
+{
+    delete [] _list;
+}
+
+Vector::Vector(std::initializer_list<int> il)
+{
+    _size = il.size();
+    _list = new int [_size];
+    std::copy(il.begin(), il.end(), _list);
+}
+
+Vector::Vector(std::size_t len)
+{
+    if (len < 1)
+    {
+        throw;
+    }
+
+    _list = new int [len];
+
+    _size = len;
 }

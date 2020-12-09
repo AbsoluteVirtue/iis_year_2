@@ -1,8 +1,9 @@
 #include <ciso646>
 #include <cstring>
-#include <ctime>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
+
 #include <iostream>
 
 
@@ -12,13 +13,14 @@ struct Vector
     Vector(size_t len);
     Vector(std::initializer_list<int> il);
     ~Vector();
+
     int add(int x);
     int get(size_t index);
     int set(size_t index, int x);
     int norm();
 private:
-    size_t _size{};
-    int * _list{NULL};
+    size_t _size{0};
+    int * _list{nullptr};
 };
 
 int main(int argc, char const *argv[])

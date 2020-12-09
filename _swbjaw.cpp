@@ -119,7 +119,7 @@ Swbjaw Swbjaw::operator +(const Swbjaw & obj) {
 }
 
 
-std::ostream & operator <<(std::ostream & outs, const Swbjaw& obj) {
+std::ostream & operator <<(std::ostream & outs, const Swbjaw & obj) {
 
     outs << obj._character;
 
