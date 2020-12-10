@@ -1,86 +1,81 @@
 #include <algorithm>
 #include <cstring>
+#include <cstdlib>
 #include <iostream>
 
-typedef unsigned short uint8;
-
-struct book
+typedef unsigned short uint2;
+struct Book
 {
-private:
-    char * author{nullptr};
-    char * title{nullptr};
-    uint8 yop{0};
-public:
-    void fill(const char * a, const char * t, uint8 y) 
+    char *author{nullptr};
+    char *title{nullptr};
+    uint2 year{0};
+
+    void init()
     {
-        yop = y;
-
-        size_t len_a = strlen(a) + 1;
-        author = new char [len_a];
-        std::move(a, a + len_a, author);
-
-        size_t len_t = strlen(t) + 1;
-        title = new char [len_t];
-        std::move(t, t + len_t, title);
+        this->year = 0;
+        this->author = nullptr;
+        this->title = nullptr;
     }
-
+    int fill(const char * a, const char * t, const uint2 y)
+    {
+        this->author = strdup(a);
+        this->title = strdup(t);
+        this->year = y;
+    }
     void print() 
     {
-        std::cout   << author 
-                    << " \"" << title << "\"" 
-                    << " (" << yop << ")\n";
+        std::cout   << author << " " 
+                    << title << " " 
+                    << year << std::endl;
     }
-
-    void clear()
-    {
-        yop = 0;
-        delete [] author;
-        author = nullptr;
-        delete [] title;
-        title = nullptr;
-    }
-
-    void change_yop(uint8 y) 
-    {
-        yop = y;
-    }
-
-    static bool comp(const book & lhs, const book & rhs) 
-    {
-        return *(lhs.author) < *(rhs.author);
+    static bool comp(const Book & lhs, const Book & rhs){
+        return *lhs.author < *rhs.author;
     }
 };
 
+int push_back(Book * & array, const char * a, const char * t, const uint2 y, size_t idx);
 
 int main(int argc, char const *argv[])
 {
-    book b1, b2;
+    #define NO_OF_BOOKS 3
 
-    b1.fill("Milton, John", "Paradise Lost", 2020);
-    b2.fill("Joyce, James", "Ulysses", 2019);
-
-    #define N 2
-
+    Book file [NO_OF_BOOKS] = {
+        {"Thackeray, William", "The Luck of Barry Lyndon", 1844},
+        {"Bronte, Charlotte", "Jane Eyre: An Autobiography", 1847},
+        {"Austen, Jane", "Pride and Prejudice", 1813},
+    };
     // TODO: use unique_ptr
-    book * sob = new book [N];
-    sob[0] = b1;
-    sob[1] = b2;
+    Book * books = new Book [NO_OF_BOOKS];
 
-    for (auto i = sob; i != sob + N; i++)
+    for (size_t i = 0; i < NO_OF_BOOKS; i++)
     {
-        i->print();
+        books[i].init();
+        books[i].fill(file[i].author,
+                        file[i].title,
+                        file[i].year);
+        books[i].print();
     }
 
-    b1.change_yop(1965);
-
+    push_back(books, "Bronte, Emily", "Wuthering Heights", 1850, NO_OF_BOOKS);
     std::cout << "\n";
-    std::sort(sob, sob + N, book::comp);
 
-    for (auto i = sob; i != sob + N; i++)
+    std::sort(books, books + NO_OF_BOOKS + 1, Book::comp);
+
+    for (size_t i = 0; i < NO_OF_BOOKS + 1; ++i)
     {
-        i->print();
-        i->clear();
+        books[i].print();
     }
-    
-    delete [] sob;
+
+    delete [] books;
+
+    return 0;
+}
+
+int push_back(Book * & array, const char * a, const char * t, const uint2 y, size_t idx)
+{
+    Book * tmp = new Book [idx + 1];
+    std::copy(array, array + idx, tmp);
+    delete [] array;
+    tmp[idx].fill(a, t, y);
+    array = tmp;
 }
