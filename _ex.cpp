@@ -10,23 +10,29 @@ struct Book
     char *title{nullptr};
     uint2_t year{2000};
 
-    void fill(const char * a, const char * t, const uint2_t y) 
-    {
-        author = strdup(a);
-        title = strdup(t);
-        year = y;
-    }
-    void print() 
-    {
-        std::cout   << author << " "
-                    << title << " "
-                    << year << std::endl;
-    }
-    static bool comp(const Book & lhs, const Book & rhs)
-    {
-        return *lhs.author < *rhs.author;
-    }
+    void fill(const char * a, const char * t, const uint2_t y);
+    void print();
+    static bool comp(const Book & lhs, const Book & rhs);
 };
+
+void Book::fill(const char * a, const char * t, const uint2_t y) 
+{
+    author = strdup(a);
+    title = strdup(t);
+    year = y;
+}
+
+void Book::print() 
+{
+    std::cout   << author << " "
+                << title << " "
+                << year << std::endl;
+}
+
+bool Book::comp(const Book & lhs, const Book & rhs)
+{
+    return *lhs.author < *rhs.author;
+}
 
 void push_back(Book * & array, const char * a, const char * t, const uint2_t y, std::size_t idx) 
 {
