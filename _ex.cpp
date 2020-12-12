@@ -1,8 +1,19 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
-#include "book.h"
 
+typedef unsigned short  uint2_t;
+
+struct Book
+{
+    char *author{nullptr};
+    char *title{nullptr};
+    uint2_t year{2000};
+
+    void fill(const char * a, const char * t, const uint2_t y);
+    void print();
+    static bool comp(const Book & lhs, const Book & rhs);
+};
 
 void push_back(Book * & array, const char * a, const char * t, const uint2_t y, size_t idx);
 
@@ -37,6 +48,25 @@ int main(int argc, char const *argv[])
     delete [] books;
 
     return 0;
+}
+
+void Book::fill(const char * a, const char * t, const uint2_t y) 
+{
+    this->author = strdup(a);
+    this->title = strdup(t);
+    this->year = y;
+}
+
+void Book::print() 
+{
+    std::cout   << author << " "
+                << title << " "
+                << year << std::endl;
+}
+
+bool Book::comp(const Book & lhs, const Book & rhs)
+{
+    return *lhs.author < *rhs.author;
 }
 
 void push_back(Book * & array, const char * a, const char * t, const uint2_t y, std::size_t idx) 
