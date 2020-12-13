@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef unsigned short uint2_t;
-
 typedef struct book
 {
     char *author;
@@ -11,30 +11,37 @@ typedef struct book
     uint2_t year;
 } Book;
 
-void fill(Book * lhs, const char * a, const char * t, const uint2_t y);
-int comp(const void * a, const void * b);
+void init(Book * bp);
+void fill(Book * bp, const char * a, const char * t, const uint2_t y);
 void push_back(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx);
 void insert(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx, size_t size);
 void del(Book ** array, const size_t idx, const size_t size);
+void clear(Book ** array, const size_t size);
+void print(Book ** array, const size_t size);
+
+void generate_delim_str(char * tmp, const size_t len, const char delimiter);
+void generate_str(char * tmp, const size_t len);
+int comp(const void * a, const void * b);
 
 int main(int argc, char const *argv[])
 {
+    srand(time(NULL));
     size_t NO_OF_BOOKS = 3;
-
-    Book file [3] = {
-        {"Thackeray, William", "The Luck of Barry Lyndon", 1844},
-        {"Bronte, Charlotte", "Jane Eyre: An Autobiography", 1847},
-        {"Austen, Jane", "Pride and Prejudice", 1813},
-    };
+    const size_t STR_LENGTH = 10;
 
     Book * books = (Book *)calloc(NO_OF_BOOKS, sizeof(Book));
     if (books == NULL){
         return -1;
     }
 
+    char tmp_a[STR_LENGTH] = {}, tmp_t[STR_LENGTH] = {};
     for (size_t i = 0; i < NO_OF_BOOKS; i++)
     {
-        fill(&books[i], file[i].author, file[i].title, file[i].year);
+        generate_delim_str(tmp_a, STR_LENGTH, ',');
+        generate_delim_str(tmp_t, STR_LENGTH, 0);
+
+        init(&books[i]);
+        fill(&books[i], tmp_a, tmp_t, 1900 + (rand() % 100));
     
         printf("%s \"%s\" (%d)\n", 
                 books[i].author, 
@@ -42,77 +49,81 @@ int main(int argc, char const *argv[])
                 books[i].year);
     }
 
-    push_back(&books, "Bronte, Emily", "Wuthering Heights", 1850, NO_OF_BOOKS);
+    generate_delim_str(tmp_a, STR_LENGTH, ',');
+    generate_delim_str(tmp_t, STR_LENGTH, 0);
+    push_back(&books, tmp_a, tmp_t, 1900 + (rand() % 100), NO_OF_BOOKS);
     NO_OF_BOOKS += 1;
 
     qsort(books, NO_OF_BOOKS, sizeof(Book), comp);
 
     printf("Sorted array\n");
-    for (size_t i = 0; i < NO_OF_BOOKS; i++)
-    {    
-        printf("%s \"%s\" (%d)\n", 
-                books[i].author, 
-                books[i].title,
-                books[i].year);
-    }
-
-    for (size_t i = 0; i < NO_OF_BOOKS; i++)
-    {
-        if (1813 == books[i].year)
-        {
-            fill(&books[i], "Austen, Jane", "Emma", 1815);
-        }
-    }
-    
-    printf("Changed array\n");
-    for (size_t i = 0; i < NO_OF_BOOKS; i++)
-    {    
-        printf("%s \"%s\" (%d)\n", 
-                books[i].author, 
-                books[i].title,
-                books[i].year);
-    }
+    print(&books, NO_OF_BOOKS);
 
     del(&books, 2, NO_OF_BOOKS);
     NO_OF_BOOKS -= 1;
 
-    insert(&books, "Austen, Jane", "Pride and Prejudice", 1813, 2, NO_OF_BOOKS);
+    generate_delim_str(tmp_a, STR_LENGTH, ',');
+    generate_delim_str(tmp_t, STR_LENGTH, 0);
+    insert(&books, tmp_a, tmp_t, 1900 + (rand() % 100), 2, NO_OF_BOOKS);
     NO_OF_BOOKS += 1;
 
     printf("Resized array\n");
-    for (size_t i = 0; i < NO_OF_BOOKS; i++)
-    {    
-        printf("%s \"%s\" (%d)\n", 
-                books[i].author, 
-                books[i].title,
-                books[i].year);
-    }
+    print(&books, NO_OF_BOOKS);
 
-    for (size_t i = 0; i < NO_OF_BOOKS; i++)
-    {
-        free(books[i].author);
-        free(books[i].title);
-    }
-    free(books);
+    clear(&books, NO_OF_BOOKS);
 
     return 0;
 }
 
-void fill(Book * lhs, const char * a, const char * t, const uint2_t y) 
+void init(Book * bp)
 {
-    if (lhs->author != NULL) 
-    {
-        free(lhs->author);
-    }
-    lhs->author = strdup(a);
+    bp->author = NULL;
+    bp->title = NULL;
+    bp->year = 2000;
+}
 
-    if (lhs->title != NULL) 
-    {
-        free(lhs->title);
+void print(Book ** array, const size_t size)
+{
+    for (size_t i = 0; i < size; i++)
+    {    
+        printf("%s \"%s\" (%d)\n", 
+                (*array)[i].author, 
+                (*array)[i].title,
+                (*array)[i].year);
     }
-    lhs->title = strdup(t);
+}
 
-    lhs->year = y;
+void clear(Book ** array, const size_t size)
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        if ((*array)[i].author)
+        {
+            free((*array)[i].author);
+        }
+        if ((*array)[i].title)
+        {
+            free((*array)[i].title);
+        }
+    }
+    free(*array);
+}
+
+void fill(Book * bp, const char * a, const char * t, const uint2_t y) 
+{
+    if (bp->author != NULL) 
+    {
+        free(bp->author);
+    }
+    bp->author = strdup(a);
+
+    if (bp->title != NULL) 
+    {
+        free(bp->title);
+    }
+    bp->title = strdup(t);
+
+    bp->year = y;
 }
 
 int comp(const void * a, const void * b) 
@@ -127,6 +138,7 @@ void push_back(Book ** array, const char * a, const char * t, const uint2_t y, s
     {
         exit(-1);
     }
+    init(&(*array)[idx]);
     fill( &(*array)[idx], a, t, y );
 }
 
@@ -144,6 +156,7 @@ void insert(Book ** array, const char * a, const char * t, const uint2_t y, size
     {
         if (idx == i)
         {
+            init(&tmp[i]);
             fill(&tmp[i], a, t, y);
         }
         else 
@@ -183,4 +196,55 @@ void del(Book ** array, const size_t idx, const size_t size)
     }
     free(*array);
     *array = tmp;
+}
+
+int _get_random_range(int lower, int upper)
+{
+    return lower + (rand() % (upper - lower));
+}
+
+void generate_delim_str(char * tmp, const size_t len, const char delimiter)
+{
+    if (len < 2) return;
+
+    tmp[0] = (char)_get_random_range((int)'A', (int)'Z');
+
+    if (len > 2)
+    {
+        for (size_t i = 1; i < len - 1; ++i)
+        {
+            if (delimiter && len > 4 && i == (len / 2) + 1)
+            {
+                tmp[i] = (char)_get_random_range((int)'A', (int)'Z');
+            }
+            else if (delimiter && len > 4 && i == (len / 2) - 1)
+            {
+                tmp[i] = delimiter;
+            }
+            else if (delimiter && delimiter != ' ' && len > 4 && i == (len / 2))
+            {
+                tmp[i] = ' ';
+            }
+            else
+            {
+                tmp[i] = (char)_get_random_range((int)'a', (int)'z');
+            }
+        }
+    }
+    tmp[len - 1] = '\0';
+}
+
+void generate_str(char * tmp, const size_t len)
+{
+    if (len < 2) return;
+
+    tmp[0] = (char)_get_random_range((int)'A', (int)'Z');
+
+    if (len > 2) {
+        for (size_t i = 1; i < len - 1; ++i)
+        {
+            tmp[i] = (char)_get_random_range((int)'a', (int)'z');
+        }
+    }
+    tmp[len - 1] = '\0';
 }
