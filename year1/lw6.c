@@ -13,7 +13,7 @@ typedef struct book
 
 void init(Book * bp);
 void fill(Book * bp, const char * a, const char * t, const uint2_t y);
-void push_back(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx);
+void push_back(Book ** array, const char * a, const char * t, const uint2_t y, size_t size);
 void insert(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx, size_t size);
 void del(Book ** array, const size_t idx, const size_t size);
 void clear(Book ** array, const size_t size);
@@ -131,19 +131,21 @@ int comp(const void * a, const void * b)
     return *((Book *)a)->author - *((Book *)b)->author;
 }
 
-void push_back(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx) 
+void push_back(Book ** array, const char * a, const char * t, const uint2_t y, size_t size) 
 {
-    *array = (Book *)realloc(*array, (idx + 1) * sizeof(Book));
+    *array = (Book *)realloc(*array, (size + 1) * sizeof(Book));
     if (*array == NULL) 
     {
         exit(-1);
     }
-    init(&(*array)[idx]);
-    fill( &(*array)[idx], a, t, y );
+    init(&(*array)[size]);
+    fill(&(*array)[size], a, t, y);
 }
 
 void insert(Book ** array, const char * a, const char * t, const uint2_t y, size_t idx, size_t size)
 {
+    if (idx >= size) return;
+
     size += 1;
     Book * tmp = (Book *)calloc(size, sizeof(Book));
     if (tmp == NULL)
@@ -170,6 +172,8 @@ void insert(Book ** array, const char * a, const char * t, const uint2_t y, size
 
 void del(Book ** array, const size_t idx, const size_t size) 
 {
+    if (idx >= size) return;
+
     Book * tmp = (Book *)calloc(size - 1, sizeof(Book));
     if (tmp == NULL)
     {
