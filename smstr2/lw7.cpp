@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -11,84 +10,33 @@
 
 int main(int argc, char const *argv[])
 {
-    
     FILE * input = fopen("census.csv", "r");
     if (input == NULL) 
     {
         printf("error: file read");
         return 1;
     }
-
+    
     record * db [NO_OF_LINES] = {};
 
-    char buf [100] = {};
-    size_t i = 0;
-    while (fgets(buf, 100, input))
-    {
-        const char * delim = ",\"\n";
-        char * token = strtok(buf, delim);
+    open(input, db);
 
-        if (!strcmp(token, "Code")) continue;
-        
-        record * tmp = new record;
-
-        while (token)
-        {
-            if (tmp->code == nullptr) 
-            {
-                tmp->code = new char [strlen(token) + 1];
-                strcpy(tmp->code, token);
-            }
-            else if (tmp->birthplace == "")
-            {
-                tmp->birthplace = token;
-            }
-            else if (tmp->night_pop == 0) 
-            {
-                tmp->night_pop = (double)atol(token);
-            }
-            else if (tmp->resident_pop == 0) 
-            {
-                tmp->resident_pop = (double)atol(token);
-            }
-            token = strtok(NULL, delim);
-        }
-        
-        db[i] = tmp;
-        ++i;
-    }
-
+    printf("\nenter code: ");
     char str [10] = {};
-    printf("enter code: \n");
     scanf("%s", str);
 
-    for (size_t i = 0; i < NO_OF_LINES; i++)
-    {
-        if (!strcmp(str, db[i]->code))
-        {
-            db[i]->print();
-        }
-    }
+    find_code(str, db, NO_OF_LINES);
 
-    printf("enter code: \n");
-    
+    printf("\nenter birthplace: ");
+
     std::string in = ""; 
     std::cin >> in;
 
-    for (size_t i = 0; i < NO_OF_LINES; i++)
-    {
-        if (in == db[i]->birthplace)
-        {
-            db[i]->print();
-        }
-    }
+    find_birthplace(in, db, NO_OF_LINES);
     
-    for (size_t i = 0; i < NO_OF_LINES; i++)
-    {
-        delete [] db[i]->code;
-        delete db[i];
-    }    
+    clean_up(db, NO_OF_LINES);
     
     fclose(input);
+
     return 0;
 }

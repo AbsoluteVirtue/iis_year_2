@@ -13,4 +13,9 @@ struct record
     void print();
 };
 
+void open(FILE * input, record ** dest);
+void find_code(char * str, record ** dest, size_t len);
+void find_birthplace(std::string str, record ** dest, size_t len);
+void clean_up(record ** dest, size_t len);
+
 #endif
