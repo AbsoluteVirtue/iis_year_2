@@ -3,17 +3,11 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include "rec.h"
 
 
 #define NO_OF_LINES 278
 
-struct record 
-{
-    char * code{nullptr};
-    std::string birthplace{""};
-    double night_pop{0};
-    double resident_pop{0};
-};
 
 int main(int argc, char const *argv[])
 {
@@ -72,10 +66,7 @@ int main(int argc, char const *argv[])
     {
         if (!strcmp(str, db[i]->code))
         {
-            printf("%s %.0f %.0f\n", 
-                db[i]->birthplace.c_str(),
-                db[i]->night_pop,
-                db[i]->resident_pop);
+            db[i]->print();
         }
     }
 
@@ -88,7 +79,7 @@ int main(int argc, char const *argv[])
     {
         if (in == db[i]->birthplace)
         {
-            std::cout << db[i]->code << " " << db[i]->night_pop << " " << db[i]->resident_pop << "\n";
+            db[i]->print();
         }
     }
     
