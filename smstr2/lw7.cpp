@@ -17,11 +17,12 @@ int main(int argc, char const *argv[])
         return 1;
     }
     
-    record * db [NO_OF_LINES] = {};
+    record * db [NO_OF_LINES] = {nullptr};
 
     open(input, db);
 
     printf("\nenter code: ");
+
     char str [10] = {};
     scanf("%s", str);
 
