@@ -1,12 +1,12 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <list>
 #include <string>
+#include <vector>
 #include "rec.h"
 
-
 #define NO_OF_LINES 278
-
 
 int main(int argc, char const *argv[])
 {
@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
         return 1;
     }
     
-    record * db [NO_OF_LINES] = {nullptr};
+    std::list<record *> db;
 
     open(input, db);
 
@@ -26,16 +26,16 @@ int main(int argc, char const *argv[])
     char str [10] = {};
     scanf("%s", str);
 
-    find_code(str, db, NO_OF_LINES);
+    find_code(str, db);
 
     printf("\nenter birthplace: ");
 
     std::string in = ""; 
     std::cin >> in;
 
-    find_birthplace(in, db, NO_OF_LINES);
+    find_birthplace(in, db);
     
-    clean_up(db, NO_OF_LINES);
+    clean_up(db);
     
     fclose(input);
 

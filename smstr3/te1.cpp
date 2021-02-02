@@ -23,7 +23,7 @@ void q1()
 
 /////////////////////////////////////////////
 
-class A
+struct A
 {
 public:
     void f()
@@ -32,7 +32,7 @@ public:
     }
 };
 
-class B : public A
+struct B : public A
 {
 public:
     void f()
