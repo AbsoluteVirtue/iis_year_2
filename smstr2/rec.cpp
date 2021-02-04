@@ -1,6 +1,5 @@
 #include <cstring>
 #include <string>
-#include <list>
 #include <vector>
 
 #include "rec.h"
@@ -14,7 +13,7 @@ void record::print()
                 this->resident_pop);
 }
 
-void open(FILE * input, std::list<record *> & dest) 
+void open(FILE * input, std::vector<record *> & dest) 
 {
     char buf [100] = {};
     while (fgets(buf, 100, input))
@@ -52,7 +51,7 @@ void open(FILE * input, std::list<record *> & dest)
     }
 }
 
-void find_code(char * str, std::list<record *> & dest) 
+void find_code(char * str, std::vector<record *> & dest) 
 {
     for (auto it : dest)
     {
@@ -63,7 +62,7 @@ void find_code(char * str, std::list<record *> & dest)
     }
 }
 
-void find_birthplace(std::string str, std::list<record *> & dest) 
+void find_birthplace(std::string str, std::vector<record *> & dest) 
 {
     for (auto it : dest)
     {
@@ -74,7 +73,7 @@ void find_birthplace(std::string str, std::list<record *> & dest)
     }
 }
 
-void clean_up(std::list<record *> & dest)
+void clean_up(std::vector<record *> & dest)
 {
     for (auto it : dest)
     {

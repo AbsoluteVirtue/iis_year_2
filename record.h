@@ -13,9 +13,9 @@ struct record
     double resident_pop{0};
 };
 
-void open(FILE * input, record ** dest);
-void find_code(char * str, record ** dest, size_t len);
-void find_birthplace(std::string str, record ** dest, size_t len);
-void clean_up(record ** dest, size_t len);
+void open(FILE * input, std::vector<record *> & dest);
+void find_code(char * str, std::vector<record *> & dest);
+void find_birthplace(std::string str, std::vector<record *> & dest);
+void clean_up(std::vector<record *> & dest);
 
 #endif

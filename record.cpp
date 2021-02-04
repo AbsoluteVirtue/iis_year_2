@@ -1,8 +1,8 @@
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include "record.h"
-
 
 
 void record::print()
@@ -14,10 +14,10 @@ void record::print()
                 this->resident_pop);
 }
 
-void open(FILE * input, record ** dest) 
+void open(FILE * input, std::vector<record *> & dest) 
 {
     char buf [100] = {};
-    size_t i = 0;
+
     while (fgets(buf, 100, input))
     {
         const char * delim = ",\"\n";
@@ -49,38 +49,36 @@ void open(FILE * input, record ** dest)
             token = strtok(NULL, delim);
         }
         
-        dest[i] = tmp;
-        ++i;
+        dest.push_back(tmp);
     }
 }
 
-void find_code(char * str, record ** dest, size_t len) 
+void find_code(char * str, std::vector<record *> & dest) 
 {
-    for (size_t i = 0; i < len; i++)
+    for (auto it : dest)
     {
-        if (!strcmp(str, dest[i]->code))
+        if (!strcmp(str, it->code))
         {
-            dest[i]->print();
+            it->print();
         }
     }
 }
 
-void find_birthplace(std::string str, record ** dest, size_t len) 
+void find_birthplace(std::string str, std::vector<record *> & dest) 
 {
-    for (size_t i = 0; i < len; i++)
+    for (auto it : dest)
     {
-        if (str == dest[i]->birthplace)
+        if (str == it->birthplace)
         {
-            dest[i]->print();
+            it->print();
         }
     }
 }
 
-void clean_up(record ** dest, size_t len)
+void clean_up(std::vector<record *> & dest)
 {
-    for (size_t i = 0; i < len; i++)
+    for (auto it : dest)
     {
-        delete [] dest[i]->code;
-        delete dest[i];
+        delete [] it->code;
     }
 }
