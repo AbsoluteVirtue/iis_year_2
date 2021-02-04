@@ -6,3 +6,6 @@
 
 # Built files
 *.exe
+*.o
+*.i
+*.s
