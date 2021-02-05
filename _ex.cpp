@@ -4,25 +4,24 @@
 #include <iostream>
 #include <vector>
 
-
-void sum_r(int & x) 
+void sum_r(int &x)
 {
     ++x;
 }
 
-void sum_c(int x) 
+void sum_c(int x)
 {
     ++x;
 }
 
-void sum_p(int * x) 
+void sum_p(int *x)
 {
     ++*x;
 }
 
 int main(int argc, char const *argv[])
 {
-  
+
     std::vector<int> v = {};
 
     for (size_t i = 0; i < 100000; i++)
@@ -41,6 +40,6 @@ int main(int argc, char const *argv[])
     v.push_back(100);
 
     std::cout << v.capacity() << "\n";
-    
+
     return 0;
 }

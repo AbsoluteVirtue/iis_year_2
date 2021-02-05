@@ -3,31 +3,38 @@
 #include <math.h>
 #include <string.h>
 
-#define ERROR 100000.
+#define ERROR 100000
+#define NO_OF_ARGS 7
 
-int scan_1()
+float function_set(float x, float a, float b, float c, int debug);
+
+int main(int argc, char *argv[])
 {
-    char line[256];
-    int i;
-    if (fgets(line, sizeof(line), stdin))
+    if (argc < NO_OF_ARGS)
     {
-        int res = sscanf(line, "%d", &i);
-        if (1 != res)
+        fputs("wrong argument count", stderr);
+        return 1;
+    }
+
+    float k = (float)atof(argv[1]);
+    float h = (float)atof(argv[2]);
+    float step = (float)atof(argv[3]);
+
+    do
+    {
+        float var = function_set(k, (float)atof(argv[4]), (float)atof(argv[5]), (float)atof(argv[6]), 0);
+        k += step;
+
+        if (var == ERROR)
         {
-            printf("error!");
-            return 0;
+            printf("undef. ");
+            continue;
         }
-        return res;
-    }
-    return -1;
-}
 
-void print(const char *str)
-{
-    for (int idx = 0; str[idx]; idx += 1)
-    {
-        printf("%c", str[idx]);
-    }
+        printf("%.2f ", var);
+    } while (k <= h);
+
+    return 0;
 }
 
 float function_set(float x, float a, float b, float c, int debug)
@@ -51,8 +58,9 @@ float function_set(float x, float a, float b, float c, int debug)
     };
 
     if (debug)
+        // 00001010 & 00000100 = 00000000
         if (!(((int)floor(a) | (int)floor(b)) & ((int)floor(a) | (int)floor(c))))
-        { // 00001010 & 00000100 = 00000000
+        {
             printf("integral value");
         }
         else
@@ -61,33 +69,4 @@ float function_set(float x, float a, float b, float c, int debug)
         }
 
     return result;
-}
-
-int main(int argc, char *argv[])
-{
-    if (argc < 7)
-    {
-        fputs("invalid argument count\n", stderr);
-        return 1;
-    }
-
-    float k = (float)atof(argv[1]);
-    float h = (float)atof(argv[2]);
-    float step = (float)atof(argv[3]);
-
-    do
-    {
-        float var = function_set(k, (float)atof(argv[4]), (float)atof(argv[5]), (float)atof(argv[6]), 0);
-        k += step;
-
-        if (var == ERROR)
-        {
-            printf("undef. ");
-            continue;
-        }
-
-        printf("%.2f ", var);
-    } while (k <= h);
-
-    return 0;
 }
