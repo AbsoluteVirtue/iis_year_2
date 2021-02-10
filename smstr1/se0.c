@@ -1,7 +1,8 @@
 // gcc -E se0.cpp > pre.i
 // gcc -S pre.i
 // gcc -c pre.s
-// gcc -O pre.o -save-temps
+// gcc -O pre.o 
+// -save-temps
 
 #include <stdio.h>
 

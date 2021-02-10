@@ -1,122 +1,120 @@
-#include <algorithm>
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include "record.h"
 
-struct Population 
+struct List
 {
+    void edit(const char * c, const std::string & n, double np, double rp);
+    void push_back(const char * c, const std::string & n, double np, double rp);
     void print();
-    void edit(const std::string & n, const std::string & c, double np, double rp);
 
-    std::string name{""};
-    std::string code{""};
-    double npop{0};
-    double rpop{0};
+    record * data{nullptr};
+    List * next{nullptr};
 };
 
-size_t find_name(const std::vector<Population *> & array, const std::string & n);
-bool compare(Population * lhs, Population * rhs);
-void clear(std::vector<Population *> & array);
+void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts);
 
 int main(int argc, char const *argv[])
 {
-    FILE * input = fopen("census.csv", "r");
-    if (input == NULL) return -1;
+    List * head = nullptr;
 
-    std::vector<Population *> v;
+    std::ifstream input;
+    input.open("census.csv");
+    if (!input.is_open()) return 1;
 
-    char line [100] = {};
-    while (fgets(line, 100, input))
+    std::string line;
+    while (std::getline(input, line))
     {
-        const char * delim = ",\"\n";
-        char * token = strtok(line, delim);        
-    
-        if (!strcmp(token, "Code")) continue;
-    
-        Population * tmp = new Population;
-        while(token)
+        std::vector<std::string> tokens;
+        split(line, ",\n\"", tokens);
+        if (tokens[0] == "Code") continue;
+
+        try
         {
-            if (tmp->code == "") 
+            if (head == nullptr)
             {
-                tmp->code = token;
+                head = new List;
+                head->edit(tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
             }
-            else if (tmp->name == "") 
+            else
             {
-                tmp->name = token;
+                head->push_back(tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
             }
-            else if (tmp->npop == 0) 
-            {
-                tmp->npop = (long double)atol(token);
-            }
-            else if (tmp->rpop == 0) 
-            {                
-                tmp->rpop = (long double)atol(token);
-            }
-            token = strtok(NULL, delim);
         }
-        v.push_back(tmp);
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 
-    v.pop_back();
-    v.pop_back();
+    input.close();
 
-    std::sort(v.begin(), v.end(), compare);
-
-    v.insert(v.begin(), new Population({"9998", "Test", 100, 100}));
-
-    v.erase(v.begin());
-
-    size_t idx = find_name(v, "Moldova");
-    v[idx]->print();
-    v[idx]->edit("Test", "9998", 0, 0);
-
-    for (auto it : v)
+    while(head->data != nullptr && head->next != nullptr)
     {
-        it->print();
+        std::cout   << head->data->birthplace << " "
+                    << head->data->code << " "
+                    << head->data->night_pop << " "
+                    << head->data->resident_pop<< "\n";
+        head = head->next;
     }
-
-    clear(v);
-
-    fclose(input);
 
     return 0;
 }
 
-void clear(std::vector<Population *> & array)
+void List::push_back(const char * c, const std::string & n, double np, double rp)
 {
-    for (auto it : array)
+    List * cur = this;
+    while(cur->next != nullptr) cur = cur->next;
+
+    char * tmp = new char[strlen(c) + 1];
+    strcpy(tmp, c);
+    List * node = new List;
+    node->data = new record({tmp, n, rp, np});
+    cur->next = node;
+}
+
+void List::edit(const char * c, const std::string & n, double np, double rp)
+{
+    if (this->data == nullptr)
     {
-        delete it;
+        char * tmp = new char[strlen(c) + 1];
+        strcpy(tmp, c);
+        this->data = new record({tmp, n, rp, np});
+    }
+    else
+    {
+        this->data->birthplace = n;
+        this->data->night_pop = np;
+        this->data->resident_pop = rp;
+        if (this->data->code != nullptr)
+        {
+            delete [] this->data->code;
+        }
+        this->data->code = new char[strlen(c) + 1];
+        strcpy(this->data->code, c);
     }
 }
 
-bool compare(Population * lhs, Population * rhs)
+void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts)
 {
-    return lhs->name < rhs->name;
-}
-
-size_t find_name(const std::vector<Population *> & array, const std::string & n) 
-{
-    size_t i = 0;
-    for (; i < array.size(); i++)
+    size_t start, end = 0;
+    while (end < str.size())
     {
-        if (array[i]->name == n) break;
+        start = end;
+        while (start < str.size() && (delim.find(str[start]) != std::string::npos))
+        {
+            start++;
+        }
+        end = start;
+        while (end < str.size() && (delim.find(str[end]) == std::string::npos))
+        {
+            end++;
+        }
+        if (end - start != 0)
+        {
+            parts.push_back(std::string(str, start, end - start));
+        }
     }
-    
-    return i;
-}
-
-void Population::edit(const std::string & n, const std::string & c, double np, double rp) 
-{
-    name = n;
-    code = c;
-    npop = np;
-    rpop = rp;
-}
-
-void Population::print() 
-{
-    std::cout << name << " " << code << " " << npop << " " << rpop << "\n";
 }
