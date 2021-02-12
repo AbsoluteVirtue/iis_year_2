@@ -2,23 +2,23 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "record.h"
 
-struct List
-{
-    void edit(const char * c, const std::string & n, double np, double rp);
-    void push_back(const char * c, const std::string & n, double np, double rp);
-    void print();
+#include "smstr2/record.h"
 
-    record * data{nullptr};
-    List * next{nullptr};
-};
+static size_t size = 0;
+static size_t length = 0;
 
 void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts);
+void print(record ** & arr);
+void push_back(record ** & arr, const char * c, const std::string & n, double np, double rp);
+record * pop_back(record ** & arr);
+void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp);
+void erase(record ** & arr, const size_t idx);
+void clear(record ** & arr);
 
 int main(int argc, char const *argv[])
 {
-    List * head = nullptr;
+    record ** array = nullptr;
 
     std::ifstream input;
     input.open("census.csv");
@@ -33,15 +33,7 @@ int main(int argc, char const *argv[])
 
         try
         {
-            if (head == nullptr)
-            {
-                head = new List;
-                head->edit(tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
-            }
-            else
-            {
-                head->push_back(tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
-            }
+            push_back(array, tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
         }
         catch(const std::exception& e)
         {
@@ -51,51 +43,58 @@ int main(int argc, char const *argv[])
 
     input.close();
 
-    while(head->data != nullptr && head->next != nullptr)
-    {
-        std::cout   << head->data->birthplace << " "
-                    << head->data->code << " "
-                    << head->data->night_pop << " "
-                    << head->data->resident_pop<< "\n";
-        head = head->next;
-    }
+    print(array);
+
+    record * removed = pop_back(array);
+    removed->print();
+    removed = pop_back(array);
+    removed->print();
+
+    print(array);
+
+    insert(array, 10, "9998", "Test", 1, 1);
+    erase(array, 10);
+    clear(array);
 
     return 0;
 }
 
-void List::push_back(const char * c, const std::string & n, double np, double rp)
+void print(record ** & arr)
 {
-    List * cur = this;
-    while(cur->next != nullptr) cur = cur->next;
-
-    char * tmp = new char[strlen(c) + 1];
-    strcpy(tmp, c);
-    List * node = new List;
-    node->data = new record({tmp, n, rp, np});
-    cur->next = node;
-}
-
-void List::edit(const char * c, const std::string & n, double np, double rp)
-{
-    if (this->data == nullptr)
+    for(size_t i = 0; i < length; ++i)
     {
-        char * tmp = new char[strlen(c) + 1];
-        strcpy(tmp, c);
-        this->data = new record({tmp, n, rp, np});
-    }
-    else
-    {
-        this->data->birthplace = n;
-        this->data->night_pop = np;
-        this->data->resident_pop = rp;
-        if (this->data->code != nullptr)
-        {
-            delete [] this->data->code;
-        }
-        this->data->code = new char[strlen(c) + 1];
-        strcpy(this->data->code, c);
+        std::cout   << arr[i]->birthplace << " ("
+                    << arr[i]->code << ") "
+                    << arr[i]->night_pop << " "
+                    << arr[i]->resident_pop<< "\n";
     }
 }
+
+void push_back(record ** & arr, const char * c, const std::string & n, double np, double rp)
+{
+    if (size <= length)
+    {
+        size = (2 * length) + 1;
+        record ** tmp = new record * [size];
+        if (length > 0)
+            std::copy(arr, arr + length, tmp);
+
+        delete [] arr;
+        arr = tmp;
+    }
+
+    char * tmp_str = new char[strlen(c) + 1];
+    strcpy(tmp_str, c);
+
+    arr[length] = new record({tmp_str, n, rp, np});
+
+    length += 1;
+}
+
+record * pop_back(record ** & arr) {return new record;}
+void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp) {}
+void erase(record ** & arr, const size_t idx) {}
+void clear(record ** & arr) {}
 
 void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts)
 {
