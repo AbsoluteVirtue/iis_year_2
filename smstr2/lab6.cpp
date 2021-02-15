@@ -19,7 +19,7 @@ static size_t length = 0;
 void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts);
 void print(record ** & arr);
 void push_back(record ** & arr, const char * c, const std::string & n, double np, double rp);
-record * pop_back(record ** & arr);
+void pop_back(record ** & arr);
 void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp);
 void erase(record ** & arr, const size_t idx);
 void clear(record ** & arr);
@@ -53,10 +53,8 @@ int main(int argc, char const *argv[])
 
     print(array);
 
-    record * removed = pop_back(array);
-    removed->print();
-    removed = pop_back(array);
-    removed->print();
+    pop_back(array);
+    pop_back(array);
 
     print(array);
 
@@ -99,7 +97,7 @@ void push_back(record ** & arr, const char * c, const std::string & n, double np
     length += 1;
 }
 
-record * pop_back(record ** & arr) {return new record;}
+void pop_back(record ** & arr) {}
 void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp) {}
 void erase(record ** & arr, const size_t idx) {}
 void clear(record ** & arr) {}

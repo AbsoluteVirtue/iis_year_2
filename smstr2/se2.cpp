@@ -16,24 +16,19 @@ struct record
 struct Vector
 {
     void push_back(record * obj);
+    void pop_back();
     record * begin();
     record * end();
 
     size_t size{0};
     size_t length{0};
-    record* *data{nullptr};
+    record ** data{nullptr};
 };
 
-bool _compare(record * a, record * b);
-void print(record * arr, size_t len) ;
+bool compare_name(record * a, record * b);
 
 int main(int argc, char const *argv[])
 {
-    record * data = new record [2];
-    data[0]= {"Test 1", "1", 1, 1};
-    data[1]= {"Test 2", "2", 2, 2};
-    print(data, 2);
-
     FILE * input = fopen("census.csv", "r");
     if (input == NULL) return -1;
 
@@ -70,6 +65,9 @@ int main(int argc, char const *argv[])
         }
         v.push_back(tmp);
     }
+
+    v.pop_back();
+    v.pop_back();
 
     for (auto it : v)
     {
@@ -109,17 +107,27 @@ void Vector::push_back(record * obj)
     length += 1;
 }
 
-bool _compare(record * a, record * b)
+void Vector::pop_back()
 {
-    return (a->night_pop > b->night_pop);
+    length -= 1;
+    delete data[length];
+    if (length <= size / 2)
+    {
+        size = length;
+        record ** tmp = new record * [size];
+        if (length > 0)
+        {
+            std::copy(data, data + length, tmp);
+        }
+        if (data != nullptr)
+        {
+            delete [] data;
+        }
+        data = tmp;
+    }
 }
 
-void print(record * arr, size_t len) 
+bool compare_population(record * a, record * b)
 {
-    for (size_t i = 0; i < len; i++)
-    {
-        std::cout << arr[i].code << "\n";
-    }
-    
-    delete [] arr;
+    return (a->night_pop > b->night_pop);
 }
