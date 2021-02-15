@@ -48,32 +48,7 @@ double binary()
     return res;
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
-
-    int a[100], n, i, n1, n2; //a[n1]<=a[n2]
-
-    // ВВОД ДАННЫХ
-
-    n1 = 0;
-    n2 = 1;
-
-    if (a[n1] > a[n2])
-
-        n1 = 1, n2 = 0;
-
-    for (i = 2; i < n; i++)
-
-        if (a[i] < a[n1])
-        {
-
-            n2 = n1;
-
-            n1 = i;
-        }
-        else if (a[i] < a[n2])
-
-            n2 = i;
-
-    printf("%d  %d", n1, n2);
+    return 0;
 }
