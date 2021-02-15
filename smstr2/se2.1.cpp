@@ -3,7 +3,15 @@
 #include <fstream>
 #include <vector>
 
-#include "record.h"
+struct record
+{
+    void print();
+
+    std::string code;
+    std::string birthplace;
+    double night_pop{0};
+    double resident_pop{0};
+};
 
 static size_t size = 0;
 static size_t length = 0;

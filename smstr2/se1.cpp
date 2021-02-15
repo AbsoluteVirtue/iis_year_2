@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-struct Population 
+struct record 
 {
     void print();
     void edit(const std::string & n, const std::string & c, double np, double rp);
@@ -16,16 +16,16 @@ struct Population
     double rpop{0};
 };
 
-size_t find_name(const std::vector<Population *> & array, const std::string & n);
-bool compare(Population * lhs, Population * rhs);
-void clear(std::vector<Population *> & array);
+size_t find_name(const std::vector<record *> & array, const std::string & n);
+bool compare(record * lhs, record * rhs);
+void clear(std::vector<record *> & array);
 
 int main(int argc, char const *argv[])
 {
     FILE * input = fopen("census.csv", "r");
     if (input == NULL) return -1;
 
-    std::vector<Population *> v;
+    std::vector<record *> v;
 
     char line [100] = {};
     while (fgets(line, 100, input))
@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
     
         if (!strcmp(token, "Code")) continue;
     
-        Population * tmp = new Population;
+        record * tmp = new record;
         while(token)
         {
             if (tmp->code == "") 
@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
 
     std::sort(v.begin(), v.end(), compare);
 
-    v.insert(v.begin(), new Population({"9998", "Test", 100, 100}));
+    v.insert(v.begin(), new record({"9998", "Test", 100, 100}));
 
     v.erase(v.begin());
 
@@ -84,7 +84,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void clear(std::vector<Population *> & array)
+void clear(std::vector<record *> & array)
 {
     for (auto it : array)
     {
@@ -92,12 +92,12 @@ void clear(std::vector<Population *> & array)
     }
 }
 
-bool compare(Population * lhs, Population * rhs)
+bool compare(record * lhs, record * rhs)
 {
     return lhs->name < rhs->name;
 }
 
-size_t find_name(const std::vector<Population *> & array, const std::string & n) 
+size_t find_name(const std::vector<record *> & array, const std::string & n) 
 {
     size_t i = 0;
     for (; i < array.size(); i++)
@@ -108,7 +108,7 @@ size_t find_name(const std::vector<Population *> & array, const std::string & n)
     return i;
 }
 
-void Population::edit(const std::string & n, const std::string & c, double np, double rp) 
+void record::edit(const std::string & n, const std::string & c, double np, double rp) 
 {
     name = n;
     code = c;
@@ -116,7 +116,7 @@ void Population::edit(const std::string & n, const std::string & c, double np, d
     rpop = rp;
 }
 
-void Population::print() 
+void record::print() 
 {
     std::cout << name << " " << code << " " << npop << " " << rpop << "\n";
 }
