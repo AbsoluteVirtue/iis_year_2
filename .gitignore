@@ -10,3 +10,6 @@
 *.i
 *.ii
 *.s
+
+# Makefile
+Makefile
