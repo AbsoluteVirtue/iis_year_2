@@ -4,8 +4,6 @@
 #include <fstream>
 #include <vector>
 
-#include "smstr2/record.h"
-
 bool cmp(std::string a, std::string b)
 {
     return a > b;

@@ -4,4 +4,3 @@ Isaac Asimov,The end of eternity,1964,New York,435,25832
 Lu Tsini,The three-body problem,2006,Shanhai,302,45867
 Isaac Asimov,Bicentennial Man,1976,New York,211,9652
 Chinghiz Aitmatov,Plakha,1986,USSR,315,10659
-

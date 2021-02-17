@@ -59,7 +59,9 @@ int main(int argc, char const *argv[])
     print(array);
 
     insert(array, 10, "9998", "Test", 1, 1);
+
     erase(array, 10);
+
     clear(array);
 
     return 0;
@@ -100,7 +102,14 @@ void push_back(record ** & arr, const char * c, const std::string & n, double np
 void pop_back(record ** & arr) {}
 void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp) {}
 void erase(record ** & arr, const size_t idx) {}
-void clear(record ** & arr) {}
+void clear(record ** & arr)
+{
+    for (size_t i = 0; i < length; i++)
+    {
+        delete arr[i];
+    }
+    delete [] arr;
+}
 
 void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts)
 {
