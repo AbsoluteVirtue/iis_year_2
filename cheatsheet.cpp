@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -36,6 +37,34 @@ void split(const std::string & str, const std::string & delim, std::vector<std::
             parts.push_back(std::string(str, start, end - start));
         }
     }
+}
+
+double binary()
+{
+    const char *bin = "1010";
+    double res = 0;
+    for (int i = 0, j = strlen(bin) - 1; j >= 0; ++i, --j)
+    {
+        if (bin[j] == '1')
+            res += pow(2, i);
+    }
+    return res;
+}
+
+char *_strcat(char *dest, const char *src, size_t n)
+{
+    size_t i, j;
+    for (i = 0; dest[i] != '\0'; i++)
+        ;
+    for (j = 0; src[j] != n; j++)
+    {
+        if (src[j] == '\0')
+            break;
+        dest[i + j] = src[j];
+    }
+
+    dest[i + j] = '\0';
+    return dest;
 }
 
 int main(int argc, char const *argv[])

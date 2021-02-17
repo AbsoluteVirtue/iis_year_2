@@ -111,6 +111,7 @@ void Vector::pop_back()
 {
     length -= 1;
     delete data[length];
+
     if (length <= size / 2)
     {
         size = length;

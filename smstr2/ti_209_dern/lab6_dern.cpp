@@ -26,7 +26,7 @@ int main()
 {
 	int n = 0; // кол-во элементов массива
 	
-	kniga* spisok = nullptr; // создание ссылки для массива структур
+	kniga ** spisok = nullptr; // создание ссылки для массива структур
 	string fileName = "file.txt"; // ссылка на файл для чтения/записи
 	MENU();
 	while (stateMenu != 0)

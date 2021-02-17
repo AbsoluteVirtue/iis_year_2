@@ -1,15 +1,16 @@
-#include"lab6_dern_lib.h"
+#include "lab6_dern_lib.h"
 
-void Manual_input(kniga* (&spisok), int(&count))
+void Manual_input(kniga** (&spisok), int(&count))
 {
 	cout << ":  ";
 	cin >> count;
 	spisok = new kniga[count];
 	for(int i=0;i<count;i++)
 	{
+		spisok[i] = new kniga;
 		system("cls");
 		cout << " (" << i + 1 << ") " << endl;
-		cout << " - "; cin >> spisok[i].author;
+		cout << " - "; cin >> spisok[i]->author;
 		cout << " - "; cin >> spisok[i].name;
 		cout << " - "; cin >> spisok[i].year;
 		cout << " - "; cin >> spisok[i].pages;
@@ -249,6 +250,11 @@ void Print(kniga* (&spisok), int(n))
 
 void Delete_all(kniga* (&spisok),int(&n))
 {
+	for (size_t i = 0; i < n; i++)
+	{
+		delete spisok[i];
+	}
+	
 	if (spisok)
 	{
 		delete[] spisok;

@@ -58,6 +58,7 @@ int main(int argc, char const *argv[])
         }
         v.push_back(tmp);
     }
+    fclose(input);
 
     v.pop_back();
     v.pop_back();
@@ -78,8 +79,6 @@ int main(int argc, char const *argv[])
     }
 
     clear(v);
-
-    fclose(input);
 
     return 0;
 }
