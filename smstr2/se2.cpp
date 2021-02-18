@@ -1,10 +1,15 @@
 #include <algorithm>
+#include <cstddef>
 #include <cstring>
 #include <iostream>
+#include <iterator>
+#include <sstream>
+#include <string>
 #include <vector>
 
 struct record
 {
+    const std::string str();
     void print();
 
     std::string code;
@@ -15,10 +20,39 @@ struct record
 
 struct Vector
 {
+    struct iter 
+    {
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = record *;
+        using pointer = value_type *;
+        using reference = value_type &;
+
+        iter(pointer p): _p(p) {}
+
+        reference operator*() const { return *_p; }
+        pointer operator->() const { return _p; }
+        iter & operator++() 
+        { 
+            ++_p; 
+            return *this;
+        }
+        iter operator++(int)
+        {
+            iter tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+        friend bool operator==(const iter & lhs, const iter & rhs) { return lhs._p == rhs._p; }
+        friend bool operator!=(const iter & lhs, const iter & rhs) { return lhs._p != rhs._p; }
+
+        pointer _p;
+    };
+
     void push_back(record * obj);
     void pop_back();
-    record * begin();
-    record * end();
+    iter begin();
+    iter end();
 
     size_t size{0};
     size_t length{0};
@@ -70,65 +104,88 @@ int main(int argc, char const *argv[])
     v.pop_back();
 
     for (auto it : v)
-    {
-        std::cout << it.code << "\t";
+    { 
+        it->print();
     }
 
     return 0;
 }
 
-record * Vector::begin()
+const std::string record::str()
 {
-    return *data;
+    std::ostringstream out;
+    out << this->birthplace << " ("
+        << this->code << ") "
+        << this->night_pop << "/"
+        << this->resident_pop;
+
+    return out.str();
 }
 
-record * Vector::end()
+void record::print()
 {
-    return *(data) + length;
+    std::cout << this->str() << "\n";
+}
+
+Vector::iter Vector::begin()
+{
+    return iter(&this->data[0]);
+}
+
+Vector::iter Vector::end()
+{
+    return iter(&this->data[this->length]);
 }
 
 void Vector::push_back(record * obj)
 {
-    if (length >= size)
+    if (this->length >= this->size)
     {
-        size = (size * 2) + 1;
-        record ** tmp = new record * [size];
-        if (length > 0)
+        this->size = (this->size * 2) + 1;
+        record ** tmp = new record * [this->size];
+
+        if (this->length > 0)
         {
-            std::copy(data, data + length, tmp);
+            std::copy(this->data, this->data + this->length, tmp);
         }
-        if (data != nullptr)
+
+        if (this->data != nullptr)
         {
-            delete [] data;
+            delete [] this->data;
         }
-        data = tmp;
+
+        this->data = tmp;
     }
-    data[length] = obj;
-    length += 1;
+
+    this->data[this->length] = obj;
+    this->length += 1;
 }
 
 void Vector::pop_back()
 {
-    length -= 1;
-    delete data[length];
+    this->length -= 1;
+    delete this->data[this->length];
 
-    if (length <= size / 2)
+    if (this->length <= this->size / 2)
     {
-        size = length;
-        record ** tmp = new record * [size];
-        if (length > 0)
+        this->size = this->length;
+        record ** tmp = new record * [this->size];
+
+        if (this->length > 0)
         {
-            std::copy(data, data + length, tmp);
+            std::copy(this->data, this->data + this->length, tmp);
         }
-        if (data != nullptr)
+
+        if (this->data != nullptr)
         {
-            delete [] data;
+            delete [] this->data;
         }
-        data = tmp;
+
+        this->data = tmp;
     }
 }
 
 bool compare_population(record * a, record * b)
 {
-    return (a->night_pop > b->night_pop);
+    return (a->resident_pop > b->resident_pop);
 }
