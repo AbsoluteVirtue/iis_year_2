@@ -46,14 +46,20 @@ struct Vector
         friend bool operator==(const iter & lhs, const iter & rhs) { return lhs._p == rhs._p; }
         friend bool operator!=(const iter & lhs, const iter & rhs) { return lhs._p != rhs._p; }
 
+    private:
         pointer _p;
     };
 
     void push_back(record * obj);
+    void insert(record * obj, const size_t idx);
     void pop_back();
+    void erase(const size_t idx);
+    void clear();
+    void print();
     iter begin();
     iter end();
 
+private:
     size_t size{0};
     size_t length{0};
     record ** data{nullptr};
@@ -103,10 +109,13 @@ int main(int argc, char const *argv[])
     v.pop_back();
     v.pop_back();
 
-    for (auto it : v)
-    { 
-        it->print();
-    }
+    v.insert(new record({"test", "TEST", 0, 0}), 0);
+
+    v.print();
+
+    v.erase(0);
+
+    v.clear();
 
     return 0;
 }
@@ -135,6 +144,25 @@ Vector::iter Vector::begin()
 Vector::iter Vector::end()
 {
     return iter(&this->data[this->length]);
+}
+
+void Vector::print()
+{
+    for (size_t i = 0; i < this->length; i++)
+    {
+        this->data[i]->print();
+    }
+}
+
+void Vector::clear()
+{
+    for (size_t i = 0; i < this->length; ++i)
+    {
+        delete this->data[i];
+    }
+    delete [] this->data;
+    this->size = 0;
+    this->length = 0;
 }
 
 void Vector::push_back(record * obj)
@@ -183,6 +211,22 @@ void Vector::pop_back()
 
         this->data = tmp;
     }
+}
+
+void Vector::insert(record * obj, const size_t idx)
+{
+    if (idx >= this->length) return;
+
+    this->push_back(obj);
+    std::swap(this->data[idx], this->data[this->length - 1]);
+}
+
+void Vector::erase(const size_t idx)
+{
+    if (idx >= this->length) return;
+
+    std::swap(this->data[idx], this->data[this->length - 1]);
+    this->pop_back();
 }
 
 bool compare_population(record * a, record * b)
