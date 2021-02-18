@@ -99,9 +99,18 @@ void push_back(record ** & arr, const char * c, const std::string & n, double np
     length += 1;
 }
 
+void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp)
+{
+    if (idx >= length) return;
+
+    push_back(arr, c, n, np, rp);
+    std::swap(arr[idx], arr[length - 1]);
+}
+
 void pop_back(record ** & arr) {}
-void insert(record ** & arr, const size_t idx, const char * c, const std::string & n, double np, double rp) {}
+
 void erase(record ** & arr, const size_t idx) {}
+
 void clear(record ** & arr)
 {
     for (size_t i = 0; i < length; i++)
