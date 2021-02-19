@@ -1,0 +1,2 @@
+2 Chisinau 10 30 Berlin 12 30 100 ;
+5 Moskow 13 0 Berlin 15 30 10 ;
