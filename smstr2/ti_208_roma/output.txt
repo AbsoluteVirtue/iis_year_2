@@ -1,0 +1,61 @@
+Farmachiya Familiyey,Kishinev,ul, Dachiya 49/14,022607393
+Khipokrates,Kishinev,ul, Dachiya 47/2,022774824
+Oriyent,Kishinev,ul, Dachiya 47/4,022569958
+Gedeon Rikhter,Kishinev,ul, Kuza Vode 1/2,022637451
+Farmachiya Familiyey,Kishinev,ul,Sarmisedzhetusa 35,022536720
+Oriyent,Kishinev,ul,Gagarina 1,022545495
+Khipokrates,Kishinev,ul,N,Zelinskiy 7,022636250
+Farmachiya Familiyey,Kishinev,ul,Sarmisedzhetusa 1,022636488
+Oriyent,Kishinev,ul,Titulesku 43/1,022534194
+Khipokrates,Kishinev,ul,Dechebal 63,022523944
+Gedeon Rikhter,Kishinev,ul,Dachiya 9/1,022551475
+Farmachiya Familiyey,Kishinev,ul,Dachiya 3/3,022530362
+Oriyent,Kishinev,ul,Dachiya 3/1,022557642
+Farmachiya Familiyey,Kishinev,ul,Munchesht 388,022246160
+Mama,Kishinev,ul,Gagarina 3/15,022548943
+Mama,Kishinev,ul,Melestiu 16/2,022273145
+Oriyent,Kishinev,ul,Melestiu 20/3,022925291
+Farmachiya Familiyey,Kishinev,ul,Arborilor 21,022630029
+Mama,Kishinev,ul,Negrutsi 2,022275182
+Khipokrates,Kishinev,ul,Kantemira 6,022277145
+Elodi,Kishinev,ul,Izmail 90/1,022930809
+Mama,Kishinev,ul,Izmail 45,022266374
+Farmachiya Familiyey,Kishinev,ul,Shtefan chel Mare 6,022272166
+Elodi,Kishinev,ul,Grenoblya 257,022926717
+Gedeon Rikhter,Kishinev,ul,Kuza Vode 37,022766563
+Farmachiya Familiyey,Kishinev,ul,Independentsey 28A,022665011
+Khipokrates,Kishinev,ul,Independentsey 34/1,022769494
+Farmachiya Familiyey,Kishinev,ul,Dachiya 32/1,022660721
+Farmachiya Familiyey,Kishinev,ul,Kuza Vode 16,022777474
+Gedeon Rikhter,Kishinev,ul,Kuza Vode 18/5,022607570
+Oriyent,Kishinev,ul,Kuza Vode 17,022660255
+Oriyent,Kishinev,ul,Kuza Vode 21/3,022636899
+Oriyent,Kishinev,ul,Trayan 1/1,022665080
+Oriyent,Kishinev,ul,Trayan 15,022571959
+Gedeon Rikhter,Kishinev,ul,Independentsey 16,022660352
+Oriyent,Kishinev,ul,Independentsey 14/1,022660253
+Farmachiya Familiyey,Kishinev,ul,Dachiya 4/1,022664200
+Farmachiya Familiyey,Kishinev,ul,Grenoblya 128/2,022668886
+Farmachiya Familiyey,Kishinev,ul,Grenoblya 149,022288970
+Oriyent,Kishinev,ul,Tetemitsanu 37,022830831
+Farmachiya Familiyey,Kishinev,ul,Tetemitsanu 37,022921868
+Oriyent,Kishinev,ul,Testemitsanu 22/4,022727591
+Khipokrates,Kishinev,ul,Vyrnav 14,022736194
+Oriyent,Kishinev,ul,G,Asaki 63,022287403
+Elodi,Kishinev,ul,G,Asaki 65,022735478
+Farmachiya Familiyey,Kishinev,ul,Mioritsa 11,022288960
+Farmachiya Familiyey,Kishinev,ul,G,Asaki 48,022288959
+Oriyent,Kishinev,ul,Pan Khalipa 3,022280871
+Oriyent,Kishinev,ul,G,Kashu 37,022791295
+Mama,Kishinev,ul,Khynchesht 60/1,022208922
+Khipokrates,Kishinev,ul,Dokuchayev 13/1,022880202
+Mama,Kishinev,ul,Dokuchayev 13,022727633
+Oriyent,Kishinev,ul,Dokuchayev 4,022727600
+Elodi,Kishinev,ul,Sprinchenoaya 6/2,022731041
+Mama,Kishinev,ul,Yaloven 98/1,022723814
+Khipokrates,Kishinev,ul,T,Vladimiresku 67S,022587085
+Khipokrates,Kishinev,ul,V,Lupu 33,022750706
+Oriyent,Kishinev,ul,Kryange 11A,022592129
+Oriyent,Kishinev,ul,Kryange 45/5,022294990
+Khipokrates,Kishinev,ul,Kryange 72,022753902
+Farmachiya Familiyey,Kishinev,ul,Kryange 74,022592807

@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-#include "newlab7.h"
+#include "book.h"
 
 static int count = 10;
 

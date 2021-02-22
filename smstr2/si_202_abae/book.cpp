@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-#include "newlab7.h"
+#include "book.h"
 
 using namespace std;
 

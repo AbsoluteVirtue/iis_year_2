@@ -15,7 +15,7 @@ struct kniga
 	int pages = 0;
 	long int circulation = 0;
 
-	void _print() // move to .cpp
+	void _print() // определение лучше кидать в .cpp
 	{
 		cout << "����� - " << author << endl;
 		cout << "������������ - " << name << endl;

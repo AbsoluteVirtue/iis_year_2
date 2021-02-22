@@ -60,10 +60,12 @@ void print(List * node)
 {
     while(node->data != nullptr && node->next != nullptr)
     {
-        std::cout   << node->data->birthplace << " "
-                    << node->data->code << " "
-                    << node->data->night_pop << " "
-                    << node->data->resident_pop<< "\n";
+        std::cout   
+            << node->data->birthplace << " "
+            << node->data->code << " "
+            << node->data->night_pop << " "
+            << node->data->resident_pop<< "\n";
+
         node = node->next;
     }
 }

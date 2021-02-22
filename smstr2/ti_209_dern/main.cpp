@@ -1,6 +1,6 @@
 #include <sstream>
 #include <string>
-#include "Function.h"
+#include "kniga.h"
 
 static int count = 10;
 
