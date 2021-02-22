@@ -71,6 +71,8 @@ void open_file(std::ifstream &read_file, std::vector<CARS> &cars)
     }
 }
 
+#pragma region find
+
 void find_name(std::string str, std::vector<CARS> cars)
 {
     for (int i = 0; i < cars.size(); ++i)
@@ -265,6 +267,8 @@ void sortMenu(std::vector<CARS> &cars)
         std::sort(cars.begin(), cars.end(), cmpByPriceUp);
     }
 }
+
+#pragma endregion
 
 void changeElement(size_t pos, std::vector<CARS> &cars, std::string name, std::string model, std::string country, int year, int hp, int price)
 {

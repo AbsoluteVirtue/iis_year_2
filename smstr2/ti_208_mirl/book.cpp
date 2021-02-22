@@ -17,6 +17,7 @@ void Book::print()
 
 void openFile(FILE *file, std::vector<Book *> &arr)
 {
+    // файл нужно открывать и закрывать здесь же
     char buffer[LEN] = {};
     while (fgets(buffer, LEN, file))
     {
