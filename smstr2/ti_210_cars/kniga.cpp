@@ -2,13 +2,12 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
-#include <stdio.h>
+// #include <stdio.h>
 #include "kniga.h"
 
 
 void Output(kniga **& library, int & size)
 {
-    
     for (int i = 0; i < size; i++)
     {
         std::cout << "�����: " << library[i]->avtor << std::endl;
@@ -19,7 +18,6 @@ void Output(kniga **& library, int & size)
         std::cout << "�����: " << library[i]->tir << std::endl;
         std::cout << "------------------------------------------" << std::endl << std::endl;
     }
-
 } 
 
 kniga ** PushBack(kniga ** & library, int & size)
@@ -27,7 +25,7 @@ kniga ** PushBack(kniga ** & library, int & size)
     char musor[2] = {};
     kniga** librarycopy = nullptr;
     librarycopy = new kniga * [size+1];
-
+    // почему +2?
     for (int i = 0; i < size + 2; i++)
     {
         librarycopy[i] = new kniga;
@@ -43,6 +41,7 @@ kniga ** PushBack(kniga ** & library, int & size)
         librarycopy[i]->tir = library[i]->tir;
     }   
 
+    // где delete[] library[i]; ?
     delete[] library;
 
     librarycopy[size]->avtor = new char[40];
@@ -160,7 +159,7 @@ void DeleteBook(kniga**& library, int & size)
     {
         return;
     }
-    if (library[save + 1]->nazv == NULL)
+    if (library[save + 1]->nazv == NULL) // надо проверять, если save + 1 не выходит за пределы массива
     {
         library[save]->avtor = nullptr;
         library[save]->nazv = nullptr;
@@ -200,7 +199,6 @@ void DeleteBook(kniga**& library, int & size)
 
 void SortLibrary(kniga**& library, int & size)
 {
-
     int menu = 0;
     kniga* bufer;
     char musor[5];
@@ -307,7 +305,6 @@ kniga** finput(kniga** & library, int & size)
         strsep = strtok(str, tok);
         while (strsep)
         {
-
             if (library[i]->avtor == nullptr)
             {
                 library[i]->avtor = new char[strlen(strsep) + 1];
@@ -337,7 +334,6 @@ kniga** finput(kniga** & library, int & size)
             }
 
             strsep = strtok(NULL, tok);
-
         }
         ++i;
 
@@ -390,7 +386,3 @@ void EditBook(kniga **& library, int & size)
         }
     }
 }
-
-
-
-
