@@ -2,6 +2,10 @@
 #include <queue>
 #include <stack>
 
+// 1. vertex visitation - 2. vertex exploration
+// Breadth-first search; on binary trees: level-ordered traversal / queue-based; BFS spanning tree w/ cross-edges
+// Depth-first search; on binary trees: pre-ordered traversal / stack-based; DFS spanning tree w/ back-edges
+
 #define N 7
 
 enum node_status

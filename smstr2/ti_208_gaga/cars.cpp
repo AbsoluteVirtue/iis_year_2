@@ -7,14 +7,14 @@
 
 #include "cars.h"
 
+// аналог. работе Мироновой
+
+// должен быть массив указателей
 void CARS::print()
 {
     std::cout << this->name << " " << this->model << " " << this->country << " " << this->year << " " << this->hp << " " << this->price << std::endl;
 }
 
-// аналог. работе Мироновой
-
-// должен быть массив указателей
 void open_file(std::ifstream &read_file, std::vector<CARS> &cars)
 {
     // файл нужно открывать и закрывать здесь же
