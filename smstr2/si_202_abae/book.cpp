@@ -127,18 +127,13 @@ void new_end(book **&arr, int &number)
 {
 	string k = arr[0]->code;
 	book **tmp = new book *[number + 1];
-	for (int i = 0; i < number + 1; i++)
-	{
-		tmp[i] = new book;
-	}
+	// for (int i = 0; i < number + 1; i++)
+	// {
+	// 	tmp[i] = new book;
+	// }
 	for (int i = 0; i < number; i++)
 	{
-		tmp[i]->code = arr[i]->code;
-		tmp[i]->autor = arr[i]->autor;
-		tmp[i]->name = arr[i]->name;
-		tmp[i]->year_of_create = arr[i]->year_of_create;
-		tmp[i]->count_of_pages = arr[i]->count_of_pages;
-		tmp[i]->edition = arr[i]->edition;
+		tmp[i] = arr[i];
 	}
 	delete[] arr; // а где delete каждой книги, если они копируются в новые?
 	arr = tmp;
