@@ -1,65 +1,148 @@
-#include <cstring>
 #include <iostream>
-#include <fstream>
-#include <sstream>
+#include <string>
 
-struct record
+struct T
 {
-    std::string code;
-    std::string birthplace;
-    double night_pop{0};
-    double resident_pop{0};
+	std::string s{""};
 };
 
-static size_t count = 10;
+struct List
+{
+	List * next{nullptr};
+	T * data{nullptr};
 
-void print(record ** & arr, size_t n);
-void create(record ** & arr, size_t n);
-void clear(record ** & arr, size_t n);
+	void print()
+	{
+		for (List * tmp = this; tmp; tmp = tmp->next)
+		{
+			std::cout << tmp->data->s << "\n";
+		}
+	}
+
+	void edit(size_t pos, const std::string & str)
+	{
+		size_t i = 0;
+		for (List * tmp = this; tmp; tmp = tmp->next) 
+		{
+			if (i == pos)
+			{
+				tmp->data->s = str;
+				break;
+			}
+			++i;
+		}
+	}
+
+	const T * find(const std::string & str)
+	{
+		for (List * tmp = this; tmp; tmp = tmp->next)
+		{
+			if (tmp->data->s.substr(1, 4) == str) 
+				return tmp->data;
+		}
+		return nullptr;
+	}
+
+	static void clear(List * & h)
+	{
+		while (h)
+		{
+			List * tmp = h->next;
+			delete h;
+			h = tmp;
+		}
+	}
+
+	static void split(List * h, List * & l, List * & r)
+	{
+		List * left = h->next;
+		List * right = h;
+
+		while(left) 
+		{
+			left = left->next;
+			if (left)
+			{
+				right = right->next;
+				left = left->next;
+			}
+		}
+
+		l = h;
+		r = right->next;
+		right->next = nullptr;
+	}
+
+	static void merge(List * & h, List * & l, List * & r)
+	{
+		List * tmp = nullptr;
+
+		if (!l)
+		{
+			h = r;
+			return;
+		}
+		else if (!r)
+		{
+			h = l;
+			return;
+		}
+
+		if (l->data->s <= r->data->s)
+		{
+			tmp = l;
+			merge(tmp->next, l->next, r);
+		}
+		else
+		{
+			tmp = r;
+			merge(tmp->next, l->next, r->next);
+		}
+		h = tmp;
+	}
+
+	static void sort(List * & source)
+	{
+		if (!source || !source->next) return;
+
+		// List * head = source;
+		// List * left = nullptr;
+		// List * right = nullptr;
+
+		// split(head, left, right);
+
+		// sort(left);
+		// sort(right);
+
+		// merge(source, left, right);
+
+		for (List * i = source; i; i = i->next)
+		{
+			for (List * tmp = i->next; tmp; tmp = tmp->next)
+			{
+				std::swap(i->data, tmp->data);
+			}
+		}
+	}
+};
 
 int main(int argc, char const *argv[])
 {
-    record ** array = nullptr;
+	List * head = new List;
 
-    create(array, count);
+	head->data = new T({"Rest1"});
 
-    print(array, count);
+	head->next = new List;
+	
+	head->next->data = new T({"Best2"});
 
-    clear(array, count);
+	head->print();
 
-    std::cout << "Done!";
-    return 0;
-}
+	List::sort(head);
 
-void create(record ** & arr, size_t n)
-{
-    arr = new record * [n];
+	head->print();
 
-    for (size_t i = 0; i < n; i++)
-    {
-        arr[i] = new record;
-        arr[i]->birthplace = "Hello " + i;
-        std::ostringstream addr;
-        addr << arr[i];
-        arr[i]->code = addr.str();
-        arr[i]->night_pop = 1;
-        arr[i]->resident_pop = 2;
-    }
-}
+	List::clear(head);
 
-void clear(record ** & arr, size_t n)
-{
-    for (size_t i = 0; i < n; i++)
-    {
-        delete arr[i];
-    }
-    delete [] arr;
-}
-
-void print(record ** & arr, size_t n)
-{
-    for (size_t i = 0; i < n; i++)
-    {
-        std::cout << arr[i]->code << "\n";
-    }
+	return 0;
 }
