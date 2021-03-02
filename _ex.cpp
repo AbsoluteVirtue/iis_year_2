@@ -6,13 +6,13 @@ struct T
 {
 	std::string s;
 
-	T(const std::string str): s(str) {}
+	T(const std::string str) : s(str) {}
 };
 
 struct node
 {
-	T * data{nullptr};
-	node * next{nullptr};
+	T *data{nullptr};
+	node *next{nullptr};
 
 	node(const std::string s = "")
 	{
@@ -28,12 +28,12 @@ struct node
 
 struct list
 {
-	node * head{nullptr};
+	node *head{nullptr};
 	size_t size{0};
 
-	void print() 
+	void print()
 	{
-		for (node * tmp = head; tmp; tmp = tmp->next)
+		for (node *tmp = head; tmp; tmp = tmp->next)
 		{
 			std::cout << tmp->data->s << "\n";
 		}
@@ -55,7 +55,7 @@ struct list
 	{
 		while (head)
 		{
-			node * tmp = head->next;
+			node *tmp = head->next;
 			delete head;
 			head = tmp;
 		}
@@ -66,11 +66,11 @@ int main(int argc, char const *argv[])
 {
 	list l("test");
 
-	node * second = new node("rest");
+	node *second = new node("rest");
 
 	l.head->next = second;
 
-	node * third = new node("best");
+	node *third = new node("best");
 
 	l.head->next->next = third;
 
