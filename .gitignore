@@ -16,3 +16,9 @@ Makefile
 makefile
 Makefile.win
 makefile.win
+
+# project_specific
+smstr2/ibm_*
+smstr2/mi_*
+smstr2/si_*
+smstr2/ti_*
