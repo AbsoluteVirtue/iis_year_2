@@ -1,16 +1,10 @@
 #pragma once
 
-// библиотеки должны быть там, где они используются
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <Windows.h>
-
-using namespace std; // так делать не надо
 
 struct Data
 {
-	string 
+	std::string 
 		Film_title,
 		Country,
 		Producer,

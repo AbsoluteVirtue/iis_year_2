@@ -1,16 +1,6 @@
 #ifndef Delim_
 #define Delim_
 
-// заголовки лучше там, где они используются
-#include <algorithm>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <fstream>
-
-using namespace std; // !!!
-
 struct flight
 {
     std::string number{};

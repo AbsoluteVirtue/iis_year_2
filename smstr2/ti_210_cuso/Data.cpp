@@ -1,4 +1,7 @@
 ﻿#include "Data.h"
+// библиотеки должны быть там, где они используются
+#include <iostream>
+#include <fstream>
 
 // аналог. работе Пынзару
 using namespace std;
@@ -60,32 +63,14 @@ void PrintData(Data *d, int n)
 	}
 }
 
-void DataChange(Data *(&d), int n)
+void DataChange(Data *(&d), int n, size_t _n, const std::string f, const std::string c, const std::string p, const std::string g, const int year)
 {
-	int _n;
-	cout << "Введите номер элемента ( от 1 до 50" << n << "): ";
-	cin >> _n;
 	_n--;
-
-	system("cls");
-
-	if (_n >= 0 && _n < n)
-	{
-		cout << "Введите название фильма: ";
-		cin >> d[_n].Film_title;
-		cout << "Введите страну: ";
-		cin >> d[_n].Country;
-		cout << "Введите продюсера:  ";
-		cin >> d[_n].Producer;
-		cout << "Введите жанр: ";
-		cin >> d[_n].Genre;
-		cout << "Введите год: ";
-		cin >> d[_n].Year;
-
-		cout << "Данные изменены!" << endl;
-	}
-	else
-		cout << "Номер введен неверно" << endl;
+	d[_n].Film_title = f;
+	d[_n].Country = c;
+	d[_n].Producer = p;
+	d[_n].Genre = g;
+	d[_n].Year = year;
 }
 
 void DeleteData(Data *(&d), int &n)
@@ -97,31 +82,23 @@ void DeleteData(Data *(&d), int &n)
 
 	if (_n >= 0 && _n < n)
 	{
-		Data *buf = new Data[n];
+		Data *buf = new Data[n--];
 		Copy(buf, d, n);
-		--n;
-		if (_n >= 0 && _n < n)
-		{
-			Data *buf = new Data[n];
-			Copy(buf, d, n);
-			--n;
-			d = new Data[n];
-			int q = 0;
-			for (int i = 0; i <= n; i++)
-			{
-				if (i != _n)
-				{
-					d[q] = buf[i];
-					++q;
-				}
-			}
-			delete[] buf;
 
-			cout << "Данные удалены!" << endl;
+		int q = 0;
+		for (int i = 0; i <= n; i++)
+		{
+			if (i != _n)
+			{
+				buf[q] = d[i];
+				++q;
+			}
 		}
-		else
-			cout << "Номер введен неверно!" << endl;
+		delete[] d;
+		d = buf;
 	}
+	else
+		cout << "Номер введен неверно!" << endl;
 }
 
 void Copy(Data *(&d_n), Data *(&d_o), int n)

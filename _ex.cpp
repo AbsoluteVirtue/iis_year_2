@@ -4,45 +4,79 @@
 
 struct T
 {
-	std::string s{""};
+	std::string s;
+
+	T(const std::string str): s(str) {}
 };
 
 struct node
 {
 	T * data{nullptr};
 	node * next{nullptr};
+
+	node(const std::string s = "")
+	{
+		data = new T(s);
+	}
+
+	~node()
+	{
+		delete data;
+		delete next;
+	}
 };
 
-void print(node* &head) 
+struct list
 {
-	for (node * tmp = head; tmp; tmp = tmp->next)
+	node * head{nullptr};
+	size_t size{0};
+
+	void print() 
 	{
-		std::cout << tmp->data->s << "\n";
+		for (node * tmp = head; tmp; tmp = tmp->next)
+		{
+			std::cout << tmp->data->s << "\n";
+		}
 	}
-}
+
+	list(const std::string s = "")
+	{
+		head = new node(s);
+		++size;
+	}
+
+	~list()
+	{
+		delete head;
+		size = 0;
+	}
+
+	void clear()
+	{
+		while (head)
+		{
+			node * tmp = head->next;
+			delete head;
+			head = tmp;
+		}
+	}
+};
 
 int main(int argc, char const *argv[])
 {
-	node * head = new node;
+	list l("test");
 
-	head->data = new T;
-	head->data->s = "test";
+	node * second = new node("rest");
 
-	node * second = new node;
-	second->data = new T;
-	second->data->s = "rest";
+	l.head->next = second;
 
-	head->next = second;
+	node * third = new node("best");
 
-	node * third = new node;
-	third->data = new T;
-	third->data->s = "best";
-
-	head->next->next = third;
+	l.head->next->next = third;
 
 	std::swap(second->data, third->data);
 
-	print(head);
+	l.print();
 
 	return 0;
 }

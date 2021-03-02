@@ -101,20 +101,9 @@ struct List
 		h = tmp;
 	}
 
-	static void sort(List * & source)
+	static void reverse(List * & source)
 	{
 		if (!source || !source->next) return;
-
-		// List * head = source;
-		// List * left = nullptr;
-		// List * right = nullptr;
-
-		// split(head, left, right);
-
-		// sort(left);
-		// sort(right);
-
-		// merge(source, left, right);
 
 		for (List * i = source; i; i = i->next)
 		{
@@ -138,7 +127,7 @@ int main(int argc, char const *argv[])
 
 	head->print();
 
-	List::sort(head);
+	List::reverse(head);
 
 	head->print();
 

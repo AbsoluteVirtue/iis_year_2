@@ -7,8 +7,6 @@
 
 #include "flight.h"
 
-using namespace std; // !!!
-
 void DynamicMemory(flight **&Array, int &a)
 {
 	FILE *input = fopen("avia.csv", "r"); // не надо хард-кодить название файла
@@ -315,37 +313,15 @@ void ScheduleSort(flight **&Array, int a)
 
 #pragma endregion
 
-void Edit(flight **&Array, int a)
+void Edit(flight **&Array, int a, size_t b, const std::string n1, const std::string n2, const std::string n3, const std::string n4, const std::string n5)
 {
-	int b = 0;
-	// ввод надо разделять с редактированием
-	std::string n;
-	while (1)
-	{
-		b = 0;
-		cout << "Kakuiu strochku jelaete izmeniti?" << endl;
-		cin >> b;
-		if (b >= a)
-			cout << "Vi vveli nesushestvuiushuy strichku!" << endl;
-		else
-			break;
-	}
-	cout << "Izmenite nomer." << endl;
-	cin >> n;
-	Array[b]->number = n;
-	cout << "Izmenite napravlenie" << endl;
-	cin >> n;
-	Array[b]->destination = n;
-	cout << "Izmenite nachalo vremeni poleta" << endl;
-	cin >> n;
-	Array[b]->departing_time = n;
-	cout << "Izmenite konet vremeni poleta" << endl;
-	cin >> n;
-	Array[b]->arriving_time = n;
-	cout << "Izmenite cenu" << endl;
-	cin >> n;
+	if (b >= a) return;
 
-	Array[b]->cost = n;
+	Array[b]->number = n1;
+	Array[b]->destination = n2;
+	Array[b]->departing_time = n3;
+	Array[b]->arriving_time = n4;
+	Array[b]->cost = n5;
 }
 
 void AddNewString(flight **&Array, int &a)
@@ -450,7 +426,7 @@ void Insert(flight **&Array, int &a)
 	Array = tmp;
 }
 
-ofstream filew; // ???
+std::ofstream filew; // ???
 
 void FileWrite(flight **&Array, int a)
 {
