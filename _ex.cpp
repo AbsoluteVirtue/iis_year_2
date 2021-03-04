@@ -2,75 +2,18 @@
 #include <fstream>
 #include <string>
 
-struct T
-{
-	std::string s;
+#include "list.h"
 
-	T(const std::string str) : s(str) {}
-};
-
-struct node
-{
-	T *data{nullptr};
-	node *next{nullptr};
-
-	node(const std::string s = "")
-	{
-		data = new T(s);
-	}
-
-	~node()
-	{
-		delete data;
-		delete next;
-	}
-};
-
-struct list
-{
-	node *head{nullptr};
-	size_t size{0};
-
-	void print()
-	{
-		for (node *tmp = head; tmp; tmp = tmp->next)
-		{
-			std::cout << tmp->data->s << "\n";
-		}
-	}
-
-	list(const std::string s = "")
-	{
-		head = new node(s);
-		++size;
-	}
-
-	~list()
-	{
-		delete head;
-		size = 0;
-	}
-
-	void clear()
-	{
-		while (head)
-		{
-			node *tmp = head->next;
-			delete head;
-			head = tmp;
-		}
-	}
-};
 
 int main(int argc, char const *argv[])
 {
-	list l("test");
+	list l(argv[1]);
 
-	node *second = new node("rest");
+	node *second = new node(argv[2]);
 
 	l.head->next = second;
 
-	node *third = new node("best");
+	node *third = new node(argv[3]);
 
 	l.head->next->next = third;
 
