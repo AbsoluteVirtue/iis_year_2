@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <forward_list>
+#include <vector>
 
 struct T
 {
@@ -32,30 +34,27 @@ struct list
 
 	void print();
 	void push_front(T * obj);
+	void pop_front();
 	void edit_front(const std::string str);
+	void erase(const size_t pos);
 };
 
 int main(int argc, char const *argv[])
 {
 	list l;
 
-	std::string str = "Test 1";
-
-	T * obj = new T(str); 
-
-	l.push_front(obj);
-
-	l.print();
-
-	l.push_front(new T);
-
-	str = "Test 2";
-
-	l.edit_front(str);
+	for (int i = 1; i < argc; i++)
+	{
+		l.push_front(new T(argv[i]));
+	}
 
 	l.print();
 
-	std::swap(l.head->data, l.head->next->data);
+	l.erase(0);
+
+	l.print();
+
+	l.erase(4);
 
 	l.print();
 
@@ -132,4 +131,32 @@ void list::push_front(T * obj)
 void list::edit_front(const std::string str)
 {
 	head->data->s = str;
+}
+
+void list::erase(const size_t pos) 
+{
+	if (pos >= size) return;
+
+	node * tmp = head;
+	if (pos == 0)
+	{
+		head = head->next;
+		delete tmp;
+	}
+	else
+	{
+		for (int i = 0; i < pos - 1; i++, tmp = tmp->next)
+		{
+			;
+		}
+		node * curr = tmp->next;
+		tmp->next = curr->next;
+		delete curr;
+	}
+	--size;
+}
+
+void list::pop_front()
+{
+	this->erase(0);
 }

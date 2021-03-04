@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 struct T
 {
@@ -115,23 +116,28 @@ struct List
 	}
 };
 
+void edit(std::vector<T *> & v, const size_t idx, const std::string str)
+{
+	v[idx]->s = str;
+}
+
 int main(int argc, char const *argv[])
 {
-	List * head = new List;
+	std::vector<T *> v = {
+		new T({"TI-208"}), new T({"TI-209"}), new T({"TI-210"}),
+	};
 
-	head->data = new T({"Rest1"});
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		std::cout << v[i]->s << "\t";
+	}
 
-	head->next = new List;
-	
-	head->next->data = new T({"Best2"});
+	edit(v, 2, "MI-203");
 
-	head->print();
-
-	List::reverse(head);
-
-	head->print();
-
-	List::clear(head);
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		std::cout << v[i]->s << "\t";
+	}
 
 	return 0;
 }

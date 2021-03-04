@@ -67,6 +67,13 @@ char *_strcat(char *dest, const char *src, size_t n)
     return dest;
 }
 
+std::string get_address(const void * val)
+{
+    std::ostringstream oss;
+    oss << val;
+    return oss.str();
+}
+
 int main(int argc, char const *argv[])
 {
     std::istringstream buf;
@@ -75,6 +82,9 @@ int main(int argc, char const *argv[])
     {
         std::cout << line;
     }
+
+    int * p = new int(10);
+    std::cout << get_address(p);
     
     return 0;
 }
