@@ -4,21 +4,21 @@
 #include <vector>
 #include "record.h"
 
-struct List
+struct node
 {
     void edit(const char * c, const std::string & n, double np, double rp);
     void push_back(const char * c, const std::string & n, double np, double rp);
 
     record * data{nullptr};
-    List * next{nullptr};
+    node * next{nullptr};
 };
 
-void print(List * node);
+void print(node * node);
 void split(const std::string & str, const std::string & delim, std::vector<std::string> & parts);
 
 int main(int argc, char const *argv[])
 {
-    List * head = nullptr;
+    node * head = nullptr;
 
     std::ifstream input;
     input.open("census.csv");
@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
         {
             if (head == nullptr)
             {
-                head = new List;
+                head = new node;
                 head->edit(tokens[0].c_str(), tokens[1], (double)std::stof(tokens[2]), (double)std::stof(tokens[3]));
             }
             else
@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void print(List * node)
+void print(node * node)
 {
     while(node->data != nullptr && node->next != nullptr)
     {
@@ -70,19 +70,19 @@ void print(List * node)
     }
 }
 
-void List::push_back(const char * c, const std::string & n, double np, double rp)
+void node::push_back(const char * c, const std::string & n, double np, double rp)
 {
-    List * cur = this;
+    node * cur = this;
     while(cur->next != nullptr) cur = cur->next;
 
     char * tmp = new char[strlen(c) + 1];
     strcpy(tmp, c);
-    List * node = new List;
-    node->data = new record({tmp, n, rp, np});
-    cur->next = node;
+    node * _node = new node;
+    _node->data = new record({tmp, n, rp, np});
+    cur->next = _node;
 }
 
-void List::edit(const char * c, const std::string & n, double np, double rp)
+void node::edit(const char * c, const std::string & n, double np, double rp)
 {
     if (this->data == nullptr)
     {
@@ -122,6 +122,76 @@ void split(const std::string & str, const std::string & delim, std::vector<std::
         if (end - start != 0)
         {
             parts.push_back(std::string(str, start, end - start));
+        }
+    }
+}
+
+node * merge_sorted(node * left, node * right)
+{
+    node * placeholder = new node;
+    node * last = placeholder;
+
+    while(left && right) 
+    {
+        if(left->data->birthplace < right->data->birthplace)
+        {
+            last->next = left;
+            last = left;
+            left = left->next;
+        }
+        else 
+        {
+            last->next = right;
+            last = right;
+            right = right->next;
+        }
+    }
+
+    if(left) 
+    {
+        last->next = left;
+    }
+
+    if(right)
+    {
+        last->next = right;
+    }
+
+    return placeholder->next;
+}
+
+// https://zxi.mytechroad.com/blog/divide-and-conquer/leetcode-148-sort-list/
+
+node * merge_sort(node * head)
+{
+    if (!head || !head->next) return head;
+    node* slow = head;
+    node* fast = head->next;    
+    while (fast && fast->next) {
+      fast = fast->next->next;
+      slow = slow->next;
+    }
+    node* mid = slow->next;    
+    slow->next = nullptr;
+    return merge_sorted(merge_sort(head), merge_sort(mid));
+}
+
+void sort(node * head)
+{
+    bool sorted = false;
+    while(!sorted)
+    {
+        sorted = true;
+        node * current = head;
+        while (current)
+        {
+            node * next = current->next;
+            if (next->data->birthplace < current->data->birthplace)
+            {
+                std::swap(current->data, next->data);
+                sorted = false;
+            }
+            current = current->next;
         }
     }
 }
