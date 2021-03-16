@@ -130,7 +130,7 @@ void list::push_front(T * obj)
 
 void list::edit_front(const std::string str)
 {
-	head->data->s = str;
+	if( head ) head->data->s = str;
 }
 
 void list::erase(const size_t pos) 
